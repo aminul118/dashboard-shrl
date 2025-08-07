@@ -9,7 +9,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { TypographyH3, TypographyP } from "@/components/ui/typography";
@@ -58,9 +57,12 @@ const AddScrollingText = () => {
             name="text"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Scrolling Text</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Write your text" {...field} />
+                  <Textarea
+                    placeholder="Write your text"
+                    {...field}
+                    className="h-36"
+                  />
                 </FormControl>
                 <FormDescription className="sr-only">
                   This is your public display name.
@@ -69,7 +71,9 @@ const AddScrollingText = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button className="mx-auto flex" type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>

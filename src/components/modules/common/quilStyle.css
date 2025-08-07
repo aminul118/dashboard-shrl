@@ -1,0 +1,9 @@
+.ql-toolbar {
+  background: oklch(89.905% 0.00514 67.312);
+}
+
+.ql-container {
+  min-height: 700px;
+  height: 700px;
+  overflow-y: auto;
+}

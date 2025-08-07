@@ -55,6 +55,10 @@ const ManageScrollingText = () => {
   }
   return (
     <div className="overflow-x-auto max-w-5xl w-full mx-auto">
+      <TypographyH3
+        title="Manage Scrolling Text"
+        className="mb-12 text-center"
+      />
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr className="bg-primary text-white">
