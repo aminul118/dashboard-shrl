@@ -18,8 +18,8 @@ import { toast } from "sonner";
 
 // Schema
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  title: z.string().min(8, {
+    message: "Title must be at least 8 characters.",
   }),
   content: z.string(),
 });
@@ -67,9 +67,9 @@ const AddEvent = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your name..." {...field} />
+                  <Input placeholder="write title here ....." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { TypographyH3, TypographyP } from "@/components/ui/typography";
 import { useAddUpcomingEventMutation } from "@/redux/features/event/event.api";
 import { toast } from "sonner";
+import ImageDrop from "@/components/ui/image-drop";
 
 // ✅ FIXED Zod Schema
 const formSchema = z.object({
@@ -31,9 +32,11 @@ const formSchema = z.object({
   venue: z.string().min(4, {
     message: "Venue must be at least 4 characters.",
   }),
-  photo: z.string().url({
-    message: "Must be a valid URL",
-  }),
+  photo: z
+    .instanceof(File, { message: "Must upload an image file" })
+    .refine((file) => file.size <= 2 * 1024 * 1024, {
+      message: "Image must be less than 2MB",
+    }),
   details: z.string().min(10, {
     message: "Details must be at least 10 characters.",
   }),
@@ -60,17 +63,17 @@ const AddUpcomingEvent = () => {
     };
     try {
       console.log("Submitted Event Info:", eventInfo);
-      const res = await addUpcomingEvent(eventInfo).unwrap();
-      console.log("RES--->", res);
-      toast.success(res.message);
-      form.reset();
+      // const res = await addUpcomingEvent(eventInfo).unwrap();
+      // console.log("RES--->", res);
+      // toast.success(res.message);
+      // form.reset();
     } catch (error: any) {
       toast.error("Something went wrong");
     }
   };
 
   return (
-    <div className="max-w-lg w-full mx-auto mt-10">
+    <div className="max-w-2xl w-full mx-auto mt-10">
       <div className="text-center mb-12">
         <TypographyH3 title="Add Upcoming Event" />
         <TypographyP text="Add Your upcoming event that people know your step " />
@@ -145,10 +148,7 @@ const AddUpcomingEvent = () => {
               <FormItem>
                 <FormLabel>Photo URL</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="https://example.com/image.jpg"
-                    {...field}
-                  />
+                  <ImageDrop {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
