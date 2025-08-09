@@ -1,16 +1,20 @@
 import Layout from "@/components/layouts/Layout";
+import AddAdmin from "@/pages/admin/AddAdmin";
 import AddEvent from "@/pages/Event/AddEvent";
 import AddUpcomingEvent from "@/pages/Event/AddUpcomingEvent";
 import ManageEvent from "@/pages/Event/ManageEvent";
 import ManageUpcomingEvent from "@/pages/Event/ManageUpcomingEvent";
 import Home from "@/pages/Home";
-import { Login } from "@/pages/Login";
+import Login from "@/pages/auth/Login";
+
+import Register from "@/pages/auth/Register";
 import AddScrollingText from "@/pages/ScrollingText/AddScrollingText";
 import ManageScrollingText from "@/pages/ScrollingText/ManageScrollingText";
 import AddTeamMember from "@/pages/Team/AddTeamMember";
 import ManageTeamMember from "@/pages/Team/ManageTeamMember";
 
 import { createBrowserRouter } from "react-router";
+import Verify from "@/pages/auth/Verify";
 
 const router = createBrowserRouter([
   {
@@ -54,11 +58,23 @@ const router = createBrowserRouter([
         path: "manage-scrolling-text",
         Component: ManageScrollingText,
       },
+      {
+        path: "add-admin",
+        Component: AddAdmin,
+      },
     ],
   },
   {
     path: "login",
     Component: Login,
+  },
+  {
+    path: "register",
+    Component: Register,
+  },
+  {
+    path: "verify",
+    Component: Verify,
   },
 ]);
 
