@@ -1,10 +1,9 @@
 import {
   Calendar,
-  Frame,
   GalleryHorizontal,
-  Map,
-  PieChart,
   User,
+  UserPlus,
+  UserStar,
 } from "lucide-react";
 import {
   Sidebar,
@@ -84,19 +83,14 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      name: "Add Admin",
+      url: "/add-admin",
+      icon: UserPlus,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Manage Admin",
+      url: "/manage-admin",
+      icon: UserStar,
     },
   ],
 };
