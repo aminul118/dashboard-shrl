@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUserInfoQuery } from '@/redux/features/auth/auth.api';
 
 const Profile = () => {
   const { data, isLoading } = useUserInfoQuery(undefined);
@@ -10,7 +10,7 @@ const Profile = () => {
   }
 
   const user = data?.data;
-  const avatarText = user?.name?.charAt(0) ?? "";
+  const avatarText = user?.name?.charAt(0) ?? '';
 
   return (
     <div className="flex justify-center items-center">
@@ -22,16 +22,13 @@ const Profile = () => {
               {avatarText}
             </AvatarFallback>
           </Avatar>
-          <CardTitle className="mt-4 text-xl font-semibold">
-            {user?.name}
-          </CardTitle>
+          <CardTitle className="mt-4 text-xl font-semibold">{user?.name}</CardTitle>
           <p className="text-gray-500 dark:text-gray-400">{user?.email}</p>
         </CardHeader>
 
         <CardContent className="mt-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            Welcome to your profile page. You can view and update your personal
-            information here.
+            Welcome to your profile page. You can view and update your personal information here.
           </p>
         </CardContent>
       </Card>

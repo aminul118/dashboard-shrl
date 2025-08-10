@@ -1,5 +1,5 @@
-import Layout from "@/components/layouts/Layout";
-import AdminRoutes from "./AdminRoutes";
+import Layout from '@/components/layouts/Layout';
+import AdminRoutes from './AdminRoutes';
 
 const AdminLayout = () => (
   <AdminRoutes>

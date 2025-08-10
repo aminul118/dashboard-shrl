@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
-import ButtonSpinner from "@/components/ui/button-spinner";
-import { TypographyH3, TypographyP } from "@/components/ui/typography";
+import { Button } from '@/components/ui/button';
+import ButtonSpinner from '@/components/ui/button-spinner';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import {
   useDeleteScrollingTextMutation,
   useGetScrollingTextQuery,
-} from "@/redux/features/scrollingText/scrollingText.api";
-import { SquarePen, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+} from '@/redux/features/scrollingText/scrollingText.api';
+import { SquarePen, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface IText {
   _id: string;
@@ -16,20 +16,16 @@ interface IText {
 
 const ManageScrollingText = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const {
-    data: scrollingText,
-    isLoading,
-    isError,
-  } = useGetScrollingTextQuery(undefined);
+  const { data: scrollingText, isLoading, isError } = useGetScrollingTextQuery(undefined);
 
   const [deleteScrollingText] = useDeleteScrollingTextMutation();
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error: {"Something went wrong"}</p>;
+  if (isError) return <p>Error: {'Something went wrong'}</p>;
 
   const handleUpdate = (id: string) => {
     // TODO: Implement update logic (e.g. open modal or navigate to edit page)
-    console.log("Update", id);
+    console.log('Update', id);
   };
 
   const handleDelete = async (id: string) => {
@@ -37,11 +33,11 @@ const ManageScrollingText = () => {
     try {
       const res = await deleteScrollingText(id).unwrap();
       console.log(res);
-      toast.success("Deleted successfully");
+      toast.success('Deleted successfully');
       // The data will auto-refresh due to RTK Query cache update
     } catch (error) {
-      console.error("Failed to delete:", error);
-      alert("Failed to delete. Please try again.");
+      console.error('Failed to delete:', error);
+      alert('Failed to delete. Please try again.');
     }
   };
 
@@ -55,10 +51,7 @@ const ManageScrollingText = () => {
   }
   return (
     <div className="overflow-x-auto max-w-5xl w-full mx-auto">
-      <TypographyH3
-        title="Manage Scrolling Text"
-        className="mb-12 text-center"
-      />
+      <TypographyH3 title="Manage Scrolling Text" className="mb-12 text-center" />
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr className="bg-primary text-white">
@@ -76,10 +69,7 @@ const ManageScrollingText = () => {
                 <Button onClick={() => handleUpdate(text._id)}>
                   <SquarePen />
                 </Button>
-                <Button
-                  onClick={() => handleDelete(text._id)}
-                  disabled={deletingId === text._id}
-                >
+                <Button onClick={() => handleDelete(text._id)} disabled={deletingId === text._id}>
                   {deletingId === text._id ? <ButtonSpinner /> : <Trash2 />}
                 </Button>
               </td>

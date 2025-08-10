@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link, useLocation, useNavigate } from "react-router";
-import loginImg from "../../../assets/images/login.svg";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Link, useLocation, useNavigate } from 'react-router';
+import loginImg from '../../../assets/images/login.svg';
 import {
   Form,
   FormControl,
@@ -14,21 +14,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
-import Password from "@/components/ui/password";
-import { toast } from "sonner";
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
-import GoogleLogin from "./GoogleLogin";
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+import Password from '@/components/ui/password';
+import { toast } from 'sonner';
+import { useLoginMutation } from '@/redux/features/auth/auth.api';
+import GoogleLogin from './GoogleLogin';
 
 const formSchema = z.object({
   email: z.email(),
   password: z.string(),
 });
 
-const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
+const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const [login] = useLoginMutation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -51,18 +51,18 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
       const res = await login(payload).unwrap();
       console.log(res);
       toast.success(res.message);
-      navigate(state || "/");
+      navigate(state || '/');
     } catch (error: any) {
       console.log(error);
       if (error.data.message === "Error: User isn't verified") {
-        navigate("/verify", { state: payload.email });
+        navigate('/verify', { state: payload.email });
       }
-      toast.error(error.data.message || "Password or Email");
+      toast.error(error.data.message || 'Password or Email');
     }
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
@@ -70,9 +70,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Welcome back</h1>
-                  <p className="text-muted-foreground text-balance">
-                    Login to your SHRL account
-                  </p>
+                  <p className="text-muted-foreground text-balance">Login to your SHRL account</p>
                 </div>
                 <div className="grid gap-3">
                   <FormField
@@ -93,10 +91,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <Link
-                      to="#"
-                      className="ml-auto text-sm underline-offset-2 hover:underline"
-                    >
+                    <Link to="#" className="ml-auto text-sm underline-offset-2 hover:underline">
                       Forgot your password?
                     </Link>
                   </div>
@@ -119,7 +114,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
                 {/* Google Login */}
                 <GoogleLogin />
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
+                  Don&apos;t have an account?{' '}
                   <Link to="/register" className="underline underline-offset-4">
                     Register
                   </Link>

@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
-import { TypographyH3 } from "@/components/ui/typography";
-import { useGetAdminStatsQuery } from "@/redux/features/stats/stats.api";
-import { navMenu } from "@/routes/adminSidebarItem";
-import generateRoutes from "@/utils/generateRoutes";
+import { Card } from '@/components/ui/card';
+import { TypographyH3 } from '@/components/ui/typography';
+import { useGetAdminStatsQuery } from '@/redux/features/stats/stats.api';
+import { navMenu } from '@/routes/adminSidebarItem';
+import generateRoutes from '@/utils/generateRoutes';
 
 interface IState {
   name: string;
@@ -22,10 +22,7 @@ const Home = () => {
 
   return (
     <section>
-      <TypographyH3
-        title="Welcome Admin"
-        className="mb-12 text-center text-5xl"
-      />
+      <TypographyH3 title="Welcome Admin" className="mb-12 text-center text-5xl" />
       <div className="grid grid-cols-2 2xl:grid-cols-4 gap-6 container mx-auto">
         {stats.map((stat: IState, i: number) => {
           return (

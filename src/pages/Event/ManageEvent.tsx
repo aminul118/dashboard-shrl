@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
-import {
-  useDeleteUpcomingEventMutation,
-  useGetEventQuery,
-} from "@/redux/features/event/event.api";
-import { Button } from "@/components/ui/button";
-import { SquarePen, Trash2 } from "lucide-react";
-import { toast } from "sonner";
-import ButtonSpinner from "@/components/ui/button-spinner";
-import { TypographyH3 } from "@/components/ui/typography";
+import { useState } from 'react';
+import { useDeleteUpcomingEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
+import { Button } from '@/components/ui/button';
+import { SquarePen, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
+import ButtonSpinner from '@/components/ui/button-spinner';
+import { TypographyH3 } from '@/components/ui/typography';
 
 export interface IManageEvent {
   _id: string;
@@ -32,7 +29,7 @@ const ManageEvent = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleUpdate = (id: string) => {
-    console.log("Update event:", id);
+    console.log('Update event:', id);
     // Navigate or open modal here
   };
 
@@ -44,7 +41,7 @@ const ManageEvent = () => {
       toast.success(res.message);
       await refetch();
     } catch (error: any) {
-      toast.error("Delete failed");
+      toast.error('Delete failed');
     }
   };
 
@@ -70,23 +67,14 @@ const ManageEvent = () => {
               <td className="px-4 py-2 border">{index + 1}</td>
               <td className="px-4 py-2 border">{event.title}</td>
               <td className="px-4 py-2 border">
-                {event.date
-                  ? new Date(event.date).toLocaleDateString()
-                  : "No date"}
+                {event.date ? new Date(event.date).toLocaleDateString() : 'No date'}
               </td>
               <td className="px-4 py-2 border space-x-2 flex">
                 <Button onClick={() => handleUpdate(event._id)}>
                   <SquarePen size={16} />
                 </Button>
-                <Button
-                  onClick={() => handleDelete(event._id)}
-                  disabled={deletingId === event._id}
-                >
-                  {deletingId === event._id ? (
-                    <ButtonSpinner />
-                  ) : (
-                    <Trash2 size={16} />
-                  )}
+                <Button onClick={() => handleDelete(event._id)} disabled={deletingId === event._id}>
+                  {deletingId === event._id ? <ButtonSpinner /> : <Trash2 size={16} />}
                 </Button>
               </td>
             </tr>

@@ -1,13 +1,11 @@
-import { Button } from "@/components/ui/button";
-import config from "@/config";
+import { Button } from '@/components/ui/button';
+import config from '@/config';
 
 const GoogleLogin = () => {
   return (
     <div>
       <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t mb-4">
-        <span className="bg-card text-muted-foreground relative z-10 px-2">
-          Or continue with
-        </span>
+        <span className="bg-card text-muted-foreground relative z-10 px-2">Or continue with</span>
       </div>
       <div className="grid  gap-4">
         <Button

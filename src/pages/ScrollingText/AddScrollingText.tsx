@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,15 +10,15 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { TypographyH3, TypographyP } from "@/components/ui/typography";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { useAddScrollingTextMutation } from "@/redux/features/scrollingText/scrollingText.api";
+} from '@/components/ui/form';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
+import { useAddScrollingTextMutation } from '@/redux/features/scrollingText/scrollingText.api';
 
 const formSchema = z.object({
   text: z.string().min(10, {
-    message: "Scrolling text must be at least 10 characters.",
+    message: 'Scrolling text must be at least 10 characters.',
   }),
 });
 
@@ -27,7 +27,7 @@ const AddScrollingText = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: "",
+      text: '',
     },
   });
 
@@ -41,7 +41,7 @@ const AddScrollingText = () => {
       console.log(res);
       toast.success(res.message);
     } catch (error) {
-      toast.error("Text added failed");
+      toast.error('Text added failed');
     }
   };
   return (
@@ -58,11 +58,7 @@ const AddScrollingText = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea
-                    placeholder="Write your text"
-                    {...field}
-                    className="h-36"
-                  />
+                  <Textarea placeholder="Write your text" {...field} className="h-36" />
                 </FormControl>
                 <FormDescription className="sr-only">
                   This is your public display name.

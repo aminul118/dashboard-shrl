@@ -1,8 +1,8 @@
-import type { IChildren } from "@/types";
-import { useLocation, useNavigate } from "react-router";
-import { useEffect } from "react";
-import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
-import { toast } from "sonner";
+import type { IChildren } from '@/types';
+import { useLocation, useNavigate } from 'react-router';
+import { useEffect } from 'react';
+import { useUserInfoQuery } from '@/redux/features/auth/auth.api';
+import { toast } from 'sonner';
 
 const AdminRoutes = ({ children }: IChildren) => {
   const location = useLocation();
@@ -15,14 +15,14 @@ const AdminRoutes = ({ children }: IChildren) => {
     if (!isLoading) {
       // Not logged in
       if (isError || !data?.data) {
-        navigate("/login", { state: { from: location.pathname } });
+        navigate('/login', { state: { from: location.pathname } });
         return;
       }
 
       // Not admin
-      if (data?.data?.role !== "ADMIN") {
-        toast.error("You are not Admin");
-        navigate("/login", { state: { from: location.pathname } });
+      if (data?.data?.role !== 'ADMIN') {
+        toast.error('You are not Admin');
+        navigate('/login', { state: { from: location.pathname } });
         return;
       }
     }

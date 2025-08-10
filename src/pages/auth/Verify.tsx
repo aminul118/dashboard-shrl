@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,27 +13,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Minus } from "lucide-react";
-import { useLocation, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { Minus } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 
-import { cn } from "@/lib/utils";
-import {
-  useSendOtpMutation,
-  useVerifyOtpMutation,
-} from "@/redux/features/auth/auth.api";
+import { cn } from '@/lib/utils';
+import { useSendOtpMutation, useVerifyOtpMutation } from '@/redux/features/auth/auth.api';
 
 // Form Validation
 const FormSchema = z.object({
   pin: z.string().min(6, {
-    message: "Your one-time password must be 6 digits.",
+    message: 'Your one-time password must be 6 digits.',
   }),
 });
 
@@ -50,23 +43,23 @@ const Verify = () => {
   // ✅ Redirect to homepage if state (email) is not present
   useEffect(() => {
     if (!state) {
-      navigate("/", { replace: true });
+      navigate('/', { replace: true });
     }
   }, [state, navigate]);
 
   // Form Hook
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { pin: "" },
+    defaultValues: { pin: '' },
   });
 
   // Send OTP
   const handleSendOTP = async () => {
     if (!state) {
-      toast.error("No email found.");
+      toast.error('No email found.');
       return;
     }
-    const toastId = toast.loading("Sending OTP...");
+    const toastId = toast.loading('Sending OTP...');
     try {
       const res = await sendOTP({ email: state }).unwrap();
       if (res.success) {
@@ -74,10 +67,10 @@ const Verify = () => {
         setOtpSent(true);
         setTimer(60);
       } else {
-        toast.error(res.message || "Failed to send OTP", { id: toastId });
+        toast.error(res.message || 'Failed to send OTP', { id: toastId });
       }
     } catch (err: any) {
-      toast.error(err?.data?.message || "Error sending OTP", { id: toastId });
+      toast.error(err?.data?.message || 'Error sending OTP', { id: toastId });
     }
   };
 
@@ -92,17 +85,17 @@ const Verify = () => {
 
   // Submit Verification
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const toastId = toast.loading("Verifying OTP...");
+    const toastId = toast.loading('Verifying OTP...');
     try {
       const res = await verifyOTP({ email: state, otp: data.pin }).unwrap();
       if (res.success) {
-        toast.success("OTP verified successfully!", { id: toastId });
-        navigate("/"); // Redirect after success
+        toast.success('OTP verified successfully!', { id: toastId });
+        navigate('/'); // Redirect after success
       } else {
-        toast.error(res.message || "OTP verification failed", { id: toastId });
+        toast.error(res.message || 'OTP verification failed', { id: toastId });
       }
     } catch (err: any) {
-      toast.error(err?.data?.message || "Invalid OTP", { id: toastId });
+      toast.error(err?.data?.message || 'Invalid OTP', { id: toastId });
     }
   };
 
@@ -167,8 +160,8 @@ const Verify = () => {
                   disabled={timer > 0}
                   onClick={handleSendOTP}
                   className={cn({
-                    "cursor-pointer": timer === 0,
-                    "text-gray-500": timer > 0,
+                    'cursor-pointer': timer === 0,
+                    'text-gray-500': timer > 0,
                   })}
                 >
                   Resend OTP {timer > 0 && `(${timer}s)`}

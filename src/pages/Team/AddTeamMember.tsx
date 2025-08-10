@@ -1,10 +1,10 @@
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useForm, useFieldArray } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
-import ReactQuil from "@/components/modules/common/ReactQuil";
-import { TypographyH3 } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
+import ReactQuil from '@/components/modules/common/ReactQuil';
+import { TypographyH3 } from '@/components/ui/typography';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,20 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import ImageDrop from "@/components/ui/image-drop";
-import { Plus, Trash2 } from "lucide-react";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import ImageDrop from '@/components/ui/image-drop';
+import { Plus, Trash2 } from 'lucide-react';
 
 // ✅ Zod Schema
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  content: z
-    .string()
-    .min(2, { message: "Content must be at least 2 characters." }),
-  designation: z.array(z.string().min(1, "Designation is required")).min(1),
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  content: z.string().min(2, { message: 'Content must be at least 2 characters.' }),
+  designation: z.array(z.string().min(1, 'Designation is required')).min(1),
   email: z.string().email(),
-  phone: z.string().min(5, { message: "Phone number is required." }),
+  phone: z.string().min(5, { message: 'Phone number is required.' }),
   photo: z.any().optional(),
 });
 
@@ -33,22 +31,22 @@ const AddTeamMember = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      content: "",
-      designation: [""],
-      email: "",
-      phone: "",
+      name: '',
+      content: '',
+      designation: [''],
+      email: '',
+      phone: '',
       photo: null,
     },
   });
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "designation",
+    name: 'designation',
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("Form Submitted:", values);
+    console.log('Form Submitted:', values);
   };
 
   return (
@@ -114,10 +112,7 @@ const AddTeamMember = () => {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormControl>
-                          <Input
-                            placeholder={`Designation ${index + 1}`}
-                            {...field}
-                          />
+                          <Input placeholder={`Designation ${index + 1}`} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -136,12 +131,7 @@ const AddTeamMember = () => {
                 </div>
               ))}
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              className="mt-2"
-              onClick={() => append("")}
-            >
+            <Button type="button" variant="outline" className="mt-2" onClick={() => append('')}>
               <Plus className="w-4 h-4 mr-2" /> Add Designation
             </Button>
           </div>

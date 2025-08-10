@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface ITitle {
   title: string;
@@ -12,17 +12,10 @@ interface IText {
 
 export function TypographyH3({ title, className }: ITitle) {
   return (
-    <h3
-      className={cn(
-        "scroll-m-20 text-2xl font-semibold tracking-tight",
-        className
-      )}
-    >
-      {title}
-    </h3>
+    <h3 className={cn('scroll-m-20 text-2xl font-semibold tracking-tight', className)}>{title}</h3>
   );
 }
 
 export function TypographyP({ text, className }: IText) {
-  return <p className={cn("leading-7 ", className)}>{text}</p>;
+  return <p className={cn('leading-7 ', className)}>{text}</p>;
 }

@@ -1,11 +1,5 @@
-
-
 const ManageUser = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <div></div>;
 };
 
 export default ManageUser;

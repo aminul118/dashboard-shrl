@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ReactQuil from "@/components/modules/common/ReactQuil";
-import { TypographyH3, TypographyP } from "@/components/ui/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import ReactQuil from '@/components/modules/common/ReactQuil';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,15 +13,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useAddEventMutation } from "@/redux/features/event/event.api";
-import { toast } from "sonner";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useAddEventMutation } from '@/redux/features/event/event.api';
+import { toast } from 'sonner';
 
 // Schema
 const formSchema = z.object({
   title: z.string().min(8, {
-    message: "Title must be at least 8 characters.",
+    message: 'Title must be at least 8 characters.',
   }),
   content: z.string(),
 });
@@ -33,13 +33,13 @@ const AddEvent = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      content: "", // quill content
+      title: '',
+      content: '', // quill content
     },
   });
 
   const onSubmit = async (values: FormValues) => {
-    console.log("Submit Values:", values);
+    console.log('Submit Values:', values);
 
     try {
       const res = await addEvent(values).unwrap();
@@ -47,7 +47,7 @@ const AddEvent = () => {
       toast.success(res.message);
       form.reset();
     } catch (error: any) {
-      toast.error("ERROR");
+      toast.error('ERROR');
     }
 
     // send values.username and values.description to backend

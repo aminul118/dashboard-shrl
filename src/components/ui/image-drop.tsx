@@ -1,7 +1,7 @@
-import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
+import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from 'lucide-react';
 
-import { useFileUpload } from "@/hooks/use-file-upload";
-import { Button } from "@/components/ui/button";
+import { useFileUpload } from '@/hooks/use-file-upload';
+import { Button } from '@/components/ui/button';
 
 export default function ImageDrop({ ...field }) {
   const maxSizeMB = 2;
@@ -19,7 +19,7 @@ export default function ImageDrop({ ...field }) {
       getInputProps,
     },
   ] = useFileUpload({
-    accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
+    accept: 'image/svg+xml,image/png,image/jpeg,image/jpg,image/gif',
     maxSize,
   });
   const previewUrl = files[0]?.preview || null;
@@ -38,16 +38,12 @@ export default function ImageDrop({ ...field }) {
           data-dragging={isDragging || undefined}
           className="border-input data-[dragging=true]:bg-accent/50 has-[input:focus]:border-ring has-[input:focus]:ring-ring/50 relative flex min-h-52 flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed p-4 transition-colors has-[input:focus]:ring-[3px]"
         >
-          <input
-            {...getInputProps()}
-            className="sr-only"
-            aria-label="Upload image file"
-          />
+          <input {...getInputProps()} className="sr-only" aria-label="Upload image file" />
           {previewUrl ? (
             <div className="absolute inset-0 flex items-center justify-center p-4">
               <img
                 src={previewUrl}
-                alt={files[0]?.file?.name || "Uploaded image"}
+                alt={files[0]?.file?.name || 'Uploaded image'}
                 className="mx-auto max-h-full rounded object-contain"
               />
             </div>
@@ -63,15 +59,8 @@ export default function ImageDrop({ ...field }) {
               <p className="text-muted-foreground text-xs">
                 SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)
               </p>
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={openFileDialog}
-              >
-                <UploadIcon
-                  className="-ms-1 size-4 opacity-60"
-                  aria-hidden="true"
-                />
+              <Button variant="outline" className="mt-4" onClick={openFileDialog}>
+                <UploadIcon className="-ms-1 size-4 opacity-60" aria-hidden="true" />
                 Select image
               </Button>
             </div>
@@ -93,10 +82,7 @@ export default function ImageDrop({ ...field }) {
       </div>
 
       {errors.length > 0 && (
-        <div
-          className="text-destructive flex items-center gap-1 text-xs"
-          role="alert"
-        >
+        <div className="text-destructive flex items-center gap-1 text-xs" role="alert">
           <AlertCircleIcon className="size-3 shrink-0" />
           <span>{errors[0]}</span>
         </div>

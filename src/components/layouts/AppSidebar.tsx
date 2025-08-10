@@ -1,16 +1,10 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "../ui/sidebar";
-import { NavMain } from "./NavMain";
-import { NavUser } from "./NavUser";
-import { Link } from "react-router";
-import logo from "../../assets/images/logo-white.png";
-import adminSidebarItem from "@/routes/adminSidebarItem";
-import { NavProjects } from "./NavProject";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '../ui/sidebar';
+import { NavMain } from './NavMain';
+import { NavUser } from './NavUser';
+import { Link } from 'react-router';
+import logo from '../../assets/images/logo-white.png';
+import adminSidebarItem from '@/routes/adminSidebarItem';
+import { NavProjects } from './NavProject';
 
 // This is sample data.
 

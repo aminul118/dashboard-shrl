@@ -1,9 +1,9 @@
 // components/modules/common/ReactQuil.tsx
 
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
-import "./quilStyle.css";
-import { useEffect } from "react";
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
+import './quilStyle.css';
+import { useEffect } from 'react';
 
 interface ReactQuilProps {
   value: string;
@@ -15,8 +15,8 @@ const ReactQuil = ({ value, onChange }: ReactQuilProps) => {
 
   useEffect(() => {
     if (quill) {
-      quill.clipboard.dangerouslyPasteHTML(value || "");
-      quill.on("text-change", () => {
+      quill.clipboard.dangerouslyPasteHTML(value || '');
+      quill.on('text-change', () => {
         onChange(quill.root.innerHTML);
       });
     }

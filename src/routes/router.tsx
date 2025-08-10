@@ -1,34 +1,34 @@
-import Login from "@/pages/auth/Login";
-import Register from "@/pages/auth/Register";
-import { createBrowserRouter } from "react-router";
-import Verify from "@/pages/auth/Verify";
-import AdminLayout from "./AdminLayout";
-import generateRoutes from "@/utils/generateRoutes";
-import { navMenu } from "./adminSidebarItem";
-import Home from "@/pages/Home";
+import Login from '@/pages/auth/Login';
+import Register from '@/pages/auth/Register';
+import { createBrowserRouter } from 'react-router';
+import Verify from '@/pages/auth/Verify';
+import AdminLayout from './AdminLayout';
+import generateRoutes from '@/utils/generateRoutes';
+import { navMenu } from './adminSidebarItem';
+import Home from '@/pages/Home';
 
 const router = createBrowserRouter([
   {
-    path: "",
+    path: '',
     Component: AdminLayout,
     children: [
       {
-        path: "",
+        path: '',
         Component: Home,
       },
       ...generateRoutes(navMenu),
     ],
   },
   {
-    path: "login",
+    path: 'login',
     Component: Login,
   },
   {
-    path: "register",
+    path: 'register',
     Component: Register,
   },
   {
-    path: "verify",
+    path: 'verify',
     Component: Verify,
   },
 ]);

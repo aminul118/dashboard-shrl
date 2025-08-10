@@ -1,10 +1,6 @@
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight, type LucideIcon } from 'lucide-react';
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -14,8 +10,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
-import { Link } from "react-router";
+} from '@/components/ui/sidebar';
+import { Link } from 'react-router';
 
 type Item = {
   items: {

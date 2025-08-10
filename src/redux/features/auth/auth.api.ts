@@ -1,12 +1,12 @@
-import { baseApi } from "@/redux/baseApi";
+import { baseApi } from '@/redux/baseApi';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     //  Login
     login: builder.mutation({
       query: (userInfo) => ({
-        url: "/auth/login",
-        method: "POST",
+        url: '/auth/login',
+        method: 'POST',
         data: userInfo,
       }),
     }),
@@ -14,17 +14,17 @@ export const authApi = baseApi.injectEndpoints({
     // Log out
     logout: builder.mutation({
       query: () => ({
-        url: "/auth/logout",
-        method: "POST",
+        url: '/auth/logout',
+        method: 'POST',
       }),
-      invalidatesTags: ["USER"],
+      invalidatesTags: ['USER'],
     }),
 
     // Registration
     register: builder.mutation({
       query: (userInfo) => ({
-        url: "/user/register",
-        method: "POST",
+        url: '/user/register',
+        method: 'POST',
         data: userInfo,
       }),
     }),
@@ -32,8 +32,8 @@ export const authApi = baseApi.injectEndpoints({
     // Send OTP
     sendOtp: builder.mutation({
       query: (userInfo) => ({
-        url: "/otp/send",
-        method: "POST",
+        url: '/otp/send',
+        method: 'POST',
         data: userInfo,
       }),
     }),
@@ -41,8 +41,8 @@ export const authApi = baseApi.injectEndpoints({
     // Verify OTP
     verifyOtp: builder.mutation({
       query: (userInfo) => ({
-        url: "/otp/verify",
-        method: "POST",
+        url: '/otp/verify',
+        method: 'POST',
         data: userInfo,
       }),
     }),
@@ -50,10 +50,10 @@ export const authApi = baseApi.injectEndpoints({
     // User Info
     userInfo: builder.query({
       query: () => ({
-        url: "/user/me",
-        method: "GET",
+        url: '/user/me',
+        method: 'GET',
       }),
-      providesTags: ["USER"],
+      providesTags: ['USER'],
     }),
   }),
 });

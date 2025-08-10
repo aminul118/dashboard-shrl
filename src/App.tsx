@@ -1,5 +1,5 @@
-import { Outlet } from "react-router";
-import DashboardLayout from "./components/layouts/DashboardLayout";
+import { Outlet } from 'react-router';
+import DashboardLayout from './components/layouts/DashboardLayout';
 
 const App = () => {
   return (

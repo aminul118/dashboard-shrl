@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,33 +11,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import DatePicker from "@/components/ui/date-picker";
-import { Textarea } from "@/components/ui/textarea";
-import { TypographyH3, TypographyP } from "@/components/ui/typography";
-import { toast } from "sonner";
-import ImageDrop from "@/components/ui/image-drop";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import DatePicker from '@/components/ui/date-picker';
+import { Textarea } from '@/components/ui/textarea';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
+import { toast } from 'sonner';
+import ImageDrop from '@/components/ui/image-drop';
 
 // ✅ FIXED Zod Schema
 const formSchema = z.object({
   title: z.string().min(6, {
-    message: "Title must be at least 6 characters.",
+    message: 'Title must be at least 6 characters.',
   }),
   date: z.date(),
   time: z.string().min(1, {
-    message: "Time is required",
+    message: 'Time is required',
   }),
   venue: z.string().min(4, {
-    message: "Venue must be at least 4 characters.",
+    message: 'Venue must be at least 4 characters.',
   }),
   photo: z
-    .instanceof(File, { message: "Must upload an image file" })
+    .instanceof(File, { message: 'Must upload an image file' })
     .refine((file) => file.size <= 2 * 1024 * 1024, {
-      message: "Image must be less than 2MB",
+      message: 'Image must be less than 2MB',
     }),
   details: z.string().min(10, {
-    message: "Details must be at least 10 characters.",
+    message: 'Details must be at least 10 characters.',
   }),
 });
 
@@ -47,12 +47,12 @@ const AddUpcomingEvent = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: '',
       date: new Date(),
-      time: "",
-      venue: "",
+      time: '',
+      venue: '',
 
-      details: "",
+      details: '',
     },
   });
 
@@ -61,13 +61,13 @@ const AddUpcomingEvent = () => {
       ...data,
     };
     try {
-      console.log("Submitted Event Info:", eventInfo);
+      console.log('Submitted Event Info:', eventInfo);
       // const res = await addUpcomingEvent(eventInfo).unwrap();
       // console.log("RES--->", res);
       // toast.success(res.message);
       // form.reset();
     } catch (error: any) {
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   };
 

@@ -1,12 +1,12 @@
-import baseApi from "@/redux/baseApi";
+import baseApi from '@/redux/baseApi';
 
 const statsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // GET - Get All Events
     getAdminStats: builder.query({
       query: () => ({
-        url: "/admin/stats",
-        method: "GET",
+        url: '/admin/stats',
+        method: 'GET',
       }),
     }),
   }),

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
-import login from "../../../assets/images/login.svg";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
+import login from '../../../assets/images/login.svg';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,13 +14,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import Password from "@/components/ui/password";
-import { toast } from "sonner";
-import { Link } from "react-router";
-import { useRegisterMutation } from "@/redux/features/auth/auth.api";
-import GoogleLogin from "./GoogleLogin";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import Password from '@/components/ui/password';
+import { toast } from 'sonner';
+import { Link } from 'react-router';
+import { useRegisterMutation } from '@/redux/features/auth/auth.api';
+import GoogleLogin from './GoogleLogin';
 
 // Registration form schema validation define
 const formSchema = z
@@ -28,30 +28,28 @@ const formSchema = z
     name: z
       .string()
       .min(3, {
-        error: "Name is too short",
+        error: 'Name is too short',
       })
       .max(50),
     email: z.email(),
-    password: z.string().min(8, { error: "Password is too short" }),
-    confirmPassword: z
-      .string()
-      .min(8, { error: "Confirm Password is too short" }),
+    password: z.string().min(8, { error: 'Password is too short' }),
+    confirmPassword: z.string().min(8, { error: 'Confirm Password is too short' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password do not match",
-    path: ["confirmPassword"],
+    message: 'Password do not match',
+    path: ['confirmPassword'],
   });
 
 // Registration form react component
-const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
+const RegisterForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const [register] = useRegisterMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -68,11 +66,11 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
       console.log(res);
       toast.success(res.message);
     } catch (error: any) {
-      toast.error("Failed to create user");
+      toast.error('Failed to create user');
     }
   };
   return (
-    <div className={cn("flex flex-col gap-6  ", className)} {...props}>
+    <div className={cn('flex flex-col gap-6  ', className)} {...props}>
       <Card className="overflow-hidden p-0 ">
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="bg-muted relative hidden md:block">
@@ -86,19 +84,14 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
-                <p className="text-muted-foreground text-balance">
-                  Register to SHRL account
-                </p>
+                <p className="text-muted-foreground text-balance">Register to SHRL account</p>
               </div>
 
               {/*  */}
 
               <div>
                 <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                  >
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     {/* User name */}
                     <FormField
                       control={form.control}
@@ -122,10 +115,7 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="john.doe@company.com"
-                              {...field}
-                            />
+                            <Input placeholder="john.doe@company.com" {...field} />
                           </FormControl>
 
                           <FormMessage />
@@ -173,7 +163,7 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
 
               <GoogleLogin />
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
+                Don&apos;t have an account?{' '}
                 <Link to="/login" className="underline underline-offset-4">
                   Login
                 </Link>
