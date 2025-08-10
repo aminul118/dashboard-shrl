@@ -23,11 +23,12 @@ import { Minus } from "lucide-react";
 import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  useSendOTPMutation,
-  useVerifyOTPMutation,
-} from "@/redux/features/auth/auth.api";
+
 import { cn } from "@/lib/utils";
+import {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/features/auth/auth.api";
 
 // Form Validation
 const FormSchema = z.object({
@@ -43,8 +44,8 @@ const Verify = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(0);
 
-  const [sendOTP] = useSendOTPMutation();
-  const [verifyOTP] = useVerifyOTPMutation();
+  const [sendOTP] = useSendOtpMutation();
+  const [verifyOTP] = useVerifyOtpMutation();
 
   // ✅ Redirect to homepage if state (email) is not present
   useEffect(() => {

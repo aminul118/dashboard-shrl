@@ -1,10 +1,4 @@
-import {
-  Calendar,
-  GalleryHorizontal,
-  User,
-  UserPlus,
-  UserStar,
-} from "lucide-react";
+import { Calendar, GalleryHorizontal, User, UserStar } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,12 +14,6 @@ import logo from "../../assets/images/logo-white.png";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
   navMain: [
     {
       title: "Events",
@@ -83,19 +71,14 @@ const data = {
   ],
   projects: [
     {
-      name: "Add Admin",
-      url: "/add-admin",
-      icon: UserPlus,
-    },
-    {
-      name: "Manage Admin",
-      url: "/manage-admin",
+      name: "Manage User",
+      url: "/manage-user",
       icon: UserStar,
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -108,9 +91,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
-}
+};
+
+export default AppSidebar;

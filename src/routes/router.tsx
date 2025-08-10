@@ -1,25 +1,24 @@
-import Layout from "@/components/layouts/Layout";
-import AddAdmin from "@/pages/admin/AddAdmin";
 import AddEvent from "@/pages/Event/AddEvent";
 import AddUpcomingEvent from "@/pages/Event/AddUpcomingEvent";
 import ManageEvent from "@/pages/Event/ManageEvent";
 import ManageUpcomingEvent from "@/pages/Event/ManageUpcomingEvent";
 import Home from "@/pages/Home";
 import Login from "@/pages/auth/Login";
-
 import Register from "@/pages/auth/Register";
 import AddScrollingText from "@/pages/ScrollingText/AddScrollingText";
 import ManageScrollingText from "@/pages/ScrollingText/ManageScrollingText";
 import AddTeamMember from "@/pages/Team/AddTeamMember";
 import ManageTeamMember from "@/pages/Team/ManageTeamMember";
-
 import { createBrowserRouter } from "react-router";
 import Verify from "@/pages/auth/Verify";
+import Profile from "@/pages/auth/Profile";
+import ManageUser from "@/pages/auth/ManageUser";
+import AdminLayout from "./AdminLayout";
 
 const router = createBrowserRouter([
   {
     path: "",
-    Component: Layout,
+    Component: AdminLayout,
     children: [
       {
         path: "",
@@ -59,8 +58,12 @@ const router = createBrowserRouter([
         Component: ManageScrollingText,
       },
       {
-        path: "add-admin",
-        Component: AddAdmin,
+        path: "manage-user",
+        Component: ManageUser,
+      },
+      {
+        path: "profile",
+        Component: Profile,
       },
     ],
   },

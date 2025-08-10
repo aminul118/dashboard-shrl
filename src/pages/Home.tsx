@@ -14,7 +14,7 @@ const Home = () => {
   }
 
   const stats = data?.data;
-  console.log(stats);
+  // console.log(stats);
 
   return (
     <section>
