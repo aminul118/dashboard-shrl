@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ReactQuil from "@/components/modules/common/ReactQuil";
 import { TypographyH3, TypographyP } from "@/components/ui/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +46,7 @@ const AddEvent = () => {
       console.log(res);
       toast.success(res.message);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       toast.error("ERROR");
     }
 

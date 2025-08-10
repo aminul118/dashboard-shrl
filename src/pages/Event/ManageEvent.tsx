@@ -11,6 +11,21 @@ import { toast } from "sonner";
 import ButtonSpinner from "@/components/ui/button-spinner";
 import { TypographyH3 } from "@/components/ui/typography";
 
+export interface IManageEvent {
+  _id: string;
+  heading: string;
+  date: string;
+  time: string;
+  venue: string;
+  facilitators: string;
+  photo: string;
+  details: string;
+  content: string;
+  title: string;
+  updatedAt: string;
+  slug: string;
+}
+
 const ManageEvent = () => {
   const { data: events, isLoading, refetch } = useGetEventQuery(null);
   const [deleteUpcomingEvent] = useDeleteUpcomingEventMutation();
@@ -50,7 +65,7 @@ const ManageEvent = () => {
           </tr>
         </thead>
         <tbody>
-          {events?.data?.map((event, index) => (
+          {events?.data?.map((event: IManageEvent, index: number) => (
             <tr key={event._id} className="hover:bg-primary/10">
               <td className="px-4 py-2 border">{index + 1}</td>
               <td className="px-4 py-2 border">{event.title}</td>

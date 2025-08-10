@@ -16,7 +16,6 @@ import { Input } from "@/components/ui/input";
 import DatePicker from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { TypographyH3, TypographyP } from "@/components/ui/typography";
-import { useAddUpcomingEventMutation } from "@/redux/features/event/event.api";
 import { toast } from "sonner";
 import ImageDrop from "@/components/ui/image-drop";
 
@@ -43,7 +42,7 @@ const formSchema = z.object({
 });
 
 const AddUpcomingEvent = () => {
-  const [addUpcomingEvent] = useAddUpcomingEventMutation();
+  // const [addUpcomingEvent] = useAddUpcomingEventMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,7 +51,7 @@ const AddUpcomingEvent = () => {
       date: new Date(),
       time: "",
       venue: "",
-      photo: "",
+
       details: "",
     },
   });

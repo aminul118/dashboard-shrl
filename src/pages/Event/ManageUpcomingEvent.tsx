@@ -1,4 +1,9 @@
-import { useGetUpcomingEventsQuery } from "@/redux/features/event/event.api";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  useDeleteUpcomingEventMutation,
+  useGetUpcomingEventsQuery,
+} from "@/redux/features/event/event.api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // ✅ ShadCN Avatar
 import { Skeleton } from "@/components/ui/skeleton"; // Optional: loading placeholder
 import { Button } from "@/components/ui/button";
@@ -8,10 +13,24 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { TypographyH3 } from "@/components/ui/typography";
 
+export interface IUpcomingEventData {
+  _id: string;
+  title: string;
+  date: string;
+  time: string;
+  venue: string;
+  photo: string;
+  details: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const ManageUpcomingEvent = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: upcomingEvents, isLoading } =
     useGetUpcomingEventsQuery(undefined);
+  const [deleteEventById] = useDeleteUpcomingEventMutation();
+  console.log("UPCO-->", upcomingEvents);
 
   if (isLoading) {
     return (
@@ -34,11 +53,11 @@ const ManageUpcomingEvent = () => {
   const handleDelete = async (id: string) => {
     setDeletingId(id);
     try {
-      // const res = await deleteUpcomingEvent(id).unwrap();
-      // console.log(res);
-      toast.success("Event deleted");
+      const res = await deleteEventById(id).unwrap();
+      console.log(res);
+      toast.success(res.message);
       // await refetch();
-    } catch (error) {
+    } catch (error: any) {
       toast.error("Delete failed");
     }
   };
@@ -60,34 +79,36 @@ const ManageUpcomingEvent = () => {
           </tr>
         </thead>
         <tbody>
-          {upcomingEvents?.data?.map((event, index) => (
-            <tr key={event._id} className="border-t">
-              <td className="px-4 py-2">{index + 1}</td>
-              <td className="px-4 py-2">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={event.photo} alt={event.title} />
-                  <AvatarFallback>{event.title?.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </td>
-              <td className="px-4 py-2">{event.title}</td>
-              <td className="px-4 py-2">{event.time}</td>
-              <td className="space-x-2">
-                <Button onClick={() => handleUpdate(event._id)}>
-                  <SquarePen size={16} />
-                </Button>
-                <Button
-                  onClick={() => handleDelete(event._id)}
-                  disabled={deletingId === event._id}
-                >
-                  {deletingId === event._id ? (
-                    <ButtonSpinner />
-                  ) : (
-                    <Trash2 size={16} />
-                  )}
-                </Button>
-              </td>
-            </tr>
-          ))}
+          {upcomingEvents?.data?.map(
+            (event: IUpcomingEventData, index: number) => (
+              <tr key={event._id} className="border-t">
+                <td className="px-4 py-2">{index + 1}</td>
+                <td className="px-4 py-2">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={event.photo} alt={event.title} />
+                    <AvatarFallback>{event.title?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </td>
+                <td className="px-4 py-2">{event.title}</td>
+                <td className="px-4 py-2">{event.time}</td>
+                <td className="space-x-2">
+                  <Button onClick={() => handleUpdate(event._id)}>
+                    <SquarePen size={16} />
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(event._id)}
+                    disabled={deletingId === event._id}
+                  >
+                    {deletingId === event._id ? (
+                      <ButtonSpinner />
+                    ) : (
+                      <Trash2 size={16} />
+                    )}
+                  </Button>
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>

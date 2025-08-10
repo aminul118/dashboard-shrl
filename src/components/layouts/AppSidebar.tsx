@@ -1,4 +1,3 @@
-import { Calendar, GalleryHorizontal, User, UserStar } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -7,76 +6,13 @@ import {
   SidebarRail,
 } from "../ui/sidebar";
 import { NavMain } from "./NavMain";
-import { NavProjects } from "./NavProject";
 import { NavUser } from "./NavUser";
 import { Link } from "react-router";
 import logo from "../../assets/images/logo-white.png";
+import adminSidebarItem from "@/routes/adminSidebarItem";
+import { NavProjects } from "./NavProject";
 
 // This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Events",
-      url: "#",
-      icon: Calendar,
-      items: [
-        {
-          title: "Add Upcoming Event",
-          url: "/add-upcoming-event",
-        },
-        {
-          title: "Manage Upcoming Event",
-          url: "/manage-upcoming-event",
-        },
-        {
-          title: "Add Event",
-          url: "/add-event",
-        },
-        {
-          title: "Manage Event",
-          url: "/manage-event",
-        },
-      ],
-    },
-    {
-      title: "Team Members",
-      url: "#",
-      icon: User,
-      items: [
-        {
-          title: "Add Team Member",
-          url: "/add-team-member",
-        },
-        {
-          title: "Manage Team Member",
-          url: "/manage-team-member",
-        },
-      ],
-    },
-    {
-      title: "Scrolling Text",
-      url: "#",
-      icon: GalleryHorizontal,
-      items: [
-        {
-          title: "Add Scrolling Text",
-          url: "/add-scrolling-text",
-        },
-        {
-          title: "Manage Scrolling Text",
-          url: "/manage-scrolling-text",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Manage User",
-      url: "/manage-user",
-      icon: UserStar,
-    },
-  ],
-};
 
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
@@ -87,8 +23,8 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={adminSidebarItem.navMenu} />
+        <NavProjects projects={adminSidebarItem.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

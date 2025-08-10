@@ -1,6 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { TypographyH3 } from "@/components/ui/typography";
 import { useGetAdminStatsQuery } from "@/redux/features/stats/stats.api";
+import { navMenu } from "@/routes/adminSidebarItem";
+import generateRoutes from "@/utils/generateRoutes";
 
 interface IState {
   name: string;
@@ -8,6 +10,8 @@ interface IState {
 }
 
 const Home = () => {
+  generateRoutes(navMenu);
+
   const { data, isLoading } = useGetAdminStatsQuery(undefined);
   if (isLoading) {
     return <p>Loading..</p>;

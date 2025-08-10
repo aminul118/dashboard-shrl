@@ -17,10 +17,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
 
-export function NavMain({
-  items,
-}: {
+type Item = {
   items: {
+    label?: string;
     title: string;
     url: string;
     icon?: LucideIcon;
@@ -30,7 +29,9 @@ export function NavMain({
       url: string;
     }[];
   }[];
-}) {
+};
+
+export function NavMain({ items }: Item) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Menus</SidebarGroupLabel>
