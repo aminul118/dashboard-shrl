@@ -17,7 +17,7 @@ const Profile = () => {
       <Card className="w-full max-w-md shadow-lg border border-gray-200 dark:border-gray-700">
         <CardHeader className="flex flex-col items-center">
           <Avatar className="h-24 w-24 rounded-full">
-            <AvatarImage src={user?.avatar} alt={user?.name} />
+            <AvatarImage src={user?.photo} alt={user?.name} />
             <AvatarFallback className="rounded-full text-2xl font-bold">
               {avatarText}
             </AvatarFallback>

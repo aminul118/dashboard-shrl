@@ -1,4 +1,5 @@
 import { baseApi } from '@/redux/baseApi';
+import type { IResponse, IUser } from '@/types';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -48,7 +49,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     // User Info
-    userInfo: builder.query({
+    userInfo: builder.query<IResponse<IUser>, undefined>({
       query: () => ({
         url: '/user/me',
         method: 'GET',

@@ -7,7 +7,6 @@ import adminSidebarItem from '@/routes/adminSidebarItem';
 import { NavProjects } from './NavProject';
 
 // This is sample data.
-
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar collapsible="icon" {...props}>

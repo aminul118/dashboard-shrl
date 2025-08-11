@@ -13,6 +13,7 @@ const Home = () => {
   generateRoutes(navMenu);
 
   const { data, isLoading } = useGetAdminStatsQuery(undefined);
+
   if (isLoading) {
     return <p>Loading..</p>;
   }
