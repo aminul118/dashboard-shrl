@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
-import ButtonSpinner from '@/components/ui/button-spinner';
 import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import {
   useDeleteScrollingTextMutation,
   useGetScrollingTextQuery,
 } from '@/redux/features/scrollingText/scrollingText.api';
 import { SquarePen, Trash2 } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface IText {
   _id: string;
@@ -15,7 +15,6 @@ interface IText {
 }
 
 const ManageScrollingText = () => {
-  const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: scrollingText, isLoading, isError } = useGetScrollingTextQuery(undefined);
 
   const [deleteScrollingText] = useDeleteScrollingTextMutation();
@@ -29,16 +28,7 @@ const ManageScrollingText = () => {
   };
 
   const handleDelete = async (id: string) => {
-    setDeletingId(id);
-    try {
-      const res = await deleteScrollingText(id).unwrap();
-      console.log(res);
-      toast.success('Deleted successfully');
-      // The data will auto-refresh due to RTK Query cache update
-    } catch (error) {
-      console.error('Failed to delete:', error);
-      alert('Failed to delete. Please try again.');
-    }
+    return await deleteScrollingText(id).unwrap();
   };
 
   if (scrollingText?.data?.length === 0) {
@@ -69,9 +59,11 @@ const ManageScrollingText = () => {
                 <Button onClick={() => handleUpdate(text._id)}>
                   <SquarePen />
                 </Button>
-                <Button onClick={() => handleDelete(text._id)} disabled={deletingId === text._id}>
-                  {deletingId === text._id ? <ButtonSpinner /> : <Trash2 />}
-                </Button>
+                <DeleteConfirmation onConfirm={() => handleDelete(text._id)}>
+                  <Button>
+                    <Trash2 />
+                  </Button>
+                </DeleteConfirmation>
               </td>
             </tr>
           ))}

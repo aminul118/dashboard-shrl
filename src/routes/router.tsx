@@ -11,11 +11,13 @@ import { role } from '@/constants/role';
 import type { TRole } from '@/types';
 import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
+import NotFound from '@/pages/NotFound';
 
 const router = createBrowserRouter([
   {
     path: '',
     Component: withAuth(Layout, (role.admin as TRole) || (role.superAdmin as TRole)),
+    errorElement: <NotFound />,
     children: [
       {
         index: true,

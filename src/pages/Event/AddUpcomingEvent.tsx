@@ -18,31 +18,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import { toast } from 'sonner';
 import ImageDrop from '@/components/ui/image-drop';
+import { useAddUpcomingEventMutation } from '@/redux/features/event/event.api';
 
-// ✅ FIXED Zod Schema
+// ✅ Validation schema
 const formSchema = z.object({
-  title: z.string().min(6, {
-    message: 'Title must be at least 6 characters.',
-  }),
+  title: z.string().min(6, { message: 'Title must be at least 6 characters.' }),
   date: z.date(),
-  time: z.string().min(1, {
-    message: 'Time is required',
-  }),
-  venue: z.string().min(4, {
-    message: 'Venue must be at least 4 characters.',
-  }),
-  photo: z
-    .instanceof(File, { message: 'Must upload an image file' })
-    .refine((file) => file.size <= 2 * 1024 * 1024, {
-      message: 'Image must be less than 2MB',
-    }),
-  details: z.string().min(10, {
-    message: 'Details must be at least 10 characters.',
-  }),
+  time: z.string().min(1, { message: 'Time is required' }),
+  venue: z.string().min(4, { message: 'Venue must be at least 4 characters.' }),
+  photo: z.instanceof(File, { message: 'Must upload an image file' }),
+  details: z.string().min(10, { message: 'Details must be at least 10 characters.' }),
 });
 
 const AddUpcomingEvent = () => {
-  // const [addUpcomingEvent] = useAddUpcomingEventMutation();
+  const [addUpcomingEvent] = useAddUpcomingEventMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,23 +40,21 @@ const AddUpcomingEvent = () => {
       date: new Date(),
       time: '',
       venue: '',
-
       details: '',
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const eventInfo = {
-      ...data,
-    };
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(data));
+    formData.append('file', data.photo);
+
     try {
-      console.log('Submitted Event Info:', eventInfo);
-      // const res = await addUpcomingEvent(eventInfo).unwrap();
-      // console.log("RES--->", res);
-      // toast.success(res.message);
-      // form.reset();
+      const res = await addUpcomingEvent(formData).unwrap();
+      toast.success(res.message || 'Event added successfully!');
+      form.reset(); // ✅ clears everything including image
     } catch (error: any) {
-      toast.error('Something went wrong');
+      toast.error(error?.data?.message || 'Something went wrong');
     }
   };
 
@@ -75,11 +62,11 @@ const AddUpcomingEvent = () => {
     <div className="max-w-2xl w-full mx-auto mt-10">
       <div className="text-center mb-12">
         <TypographyH3 title="Add Upcoming Event" />
-        <TypographyP text="Add Your upcoming event that people know your step " />
+        <TypographyP text="Add Your upcoming event so people know your next step" />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Event Title */}
+          {/* Title */}
           <FormField
             control={form.control}
             name="title"
@@ -109,35 +96,36 @@ const AddUpcomingEvent = () => {
             )}
           />
 
-          {/* Time */}
-          <FormField
-            control={form.control}
-            name="time"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Time</FormLabel>
-                <FormControl>
-                  <Input placeholder="Time (e.g. 6:00 PM)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Time & Date */}
+          <div className="grid grid-cols-2 gap-5">
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(e.g. 6:00 to 7:00 PM)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Date Picker */}
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Date</FormLabel>
-                <FormControl>
-                  <DatePicker value={field.value} onChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Date</FormLabel>
+                  <FormControl>
+                    <DatePicker value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           {/* Photo */}
           <FormField
@@ -145,9 +133,9 @@ const AddUpcomingEvent = () => {
             name="photo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Photo URL</FormLabel>
+                <FormLabel>Photo</FormLabel>
                 <FormControl>
-                  <ImageDrop {...field} />
+                  <ImageDrop onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

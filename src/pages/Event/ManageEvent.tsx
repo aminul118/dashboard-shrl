@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
 import { useDeleteUpcomingEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
 import { Button } from '@/components/ui/button';
 import { SquarePen, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
-import ButtonSpinner from '@/components/ui/button-spinner';
 import { TypographyH3 } from '@/components/ui/typography';
+import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 
 export interface IManageEvent {
   _id: string;
@@ -26,23 +24,14 @@ export interface IManageEvent {
 const ManageEvent = () => {
   const { data: events, isLoading, refetch } = useGetEventQuery(null);
   const [deleteUpcomingEvent] = useDeleteUpcomingEventMutation();
-  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleUpdate = (id: string) => {
     console.log('Update event:', id);
     // Navigate or open modal here
   };
 
-  const handleDelete = async (id: string) => {
-    setDeletingId(id);
-    try {
-      const res = await deleteUpcomingEvent(id).unwrap();
-      console.log(res);
-      toast.success(res.message);
-      await refetch();
-    } catch (error: any) {
-      toast.error('Delete failed');
-    }
+  const handleDelete = async (eventId: string) => {
+    return await deleteUpcomingEvent(eventId).unwrap();
   };
 
   if (isLoading) {
@@ -73,9 +62,11 @@ const ManageEvent = () => {
                 <Button onClick={() => handleUpdate(event._id)}>
                   <SquarePen size={16} />
                 </Button>
-                <Button onClick={() => handleDelete(event._id)} disabled={deletingId === event._id}>
-                  {deletingId === event._id ? <ButtonSpinner /> : <Trash2 size={16} />}
-                </Button>
+                <DeleteConfirmation onConfirm={() => handleDelete(event._id)}>
+                  <Button>
+                    <Trash2 />
+                  </Button>
+                </DeleteConfirmation>
               </td>
             </tr>
           ))}

@@ -1,11 +1,15 @@
 import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from 'lucide-react';
-
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
 
-export default function ImageDrop({ ...field }) {
+interface ImageDropProps {
+  onChange: (file: File | null) => void;
+}
+
+export default function ImageDrop({ onChange }: ImageDropProps) {
   const maxSizeMB = 2;
-  const maxSize = maxSizeMB * 1024 * 1024; // 2MB default
+  const maxSize = maxSizeMB * 1024 * 1024;
 
   const [
     { files, isDragging, errors },
@@ -22,19 +26,25 @@ export default function ImageDrop({ ...field }) {
     accept: 'image/svg+xml,image/png,image/jpeg,image/jpg,image/gif',
     maxSize,
   });
+
   const previewUrl = files[0]?.preview || null;
-  // const fileName = files[0]?.file.name || null;
+
+  useEffect(() => {
+    if (files.length > 0) {
+      onChange(files[0].file as File);
+    } else {
+      onChange(null);
+    }
+  }, [files, onChange]);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
-        {/* Drop area */}
         <div
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          {...field}
           data-dragging={isDragging || undefined}
           className="border-input data-[dragging=true]:bg-accent/50 has-[input:focus]:border-ring has-[input:focus]:ring-ring/50 relative flex min-h-52 flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed p-4 transition-colors has-[input:focus]:ring-[3px]"
         >

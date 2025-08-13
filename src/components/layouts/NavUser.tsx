@@ -22,6 +22,7 @@ import { authApi, useLogoutMutation, useUserInfoQuery } from '@/redux/features/a
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
+import ThemeToggle from './ThemeToggle';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -94,6 +95,9 @@ export function NavUser() {
                   Profile
                 </DropdownMenuItem>
               </Link>
+            </DropdownMenuGroup>
+            <DropdownMenuGroup className="px-2">
+              <ThemeToggle />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
