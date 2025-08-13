@@ -4,14 +4,14 @@ import {
   useDeleteUpcomingEventMutation,
   useGetUpcomingEventsQuery,
 } from '@/redux/features/event/event.api';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'; // ✅ ShadCN Avatar
-import { Skeleton } from '@/components/ui/skeleton'; // Optional: loading placeholder
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { SquarePen, Trash2 } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { TypographyH3 } from '@/components/ui/typography';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
 
 export interface IUpcomingEventData {
   _id: string;
@@ -29,7 +29,6 @@ const ManageUpcomingEvent = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: upcomingEvents, isLoading } = useGetUpcomingEventsQuery(undefined);
   const [deleteEventById] = useDeleteUpcomingEventMutation();
-  console.log('UPCO-->', upcomingEvents);
 
   if (isLoading) {
     return (
@@ -45,7 +44,7 @@ const ManageUpcomingEvent = () => {
   }
 
   const handleUpdate = (id: string) => {
-    console.log('Update event:', id);
+    // console.log('Update event:', id);
     // Navigate or open modal here
   };
 
@@ -53,7 +52,7 @@ const ManageUpcomingEvent = () => {
     setDeletingId(id);
     try {
       const res = await deleteEventById(id).unwrap();
-      console.log(res);
+      // console.log(res);
       toast.success(res.message);
       // await refetch();
     } catch (error: any) {
@@ -61,6 +60,14 @@ const ManageUpcomingEvent = () => {
     }
   };
 
+  if (upcomingEvents?.data?.length === 0) {
+    return (
+      <div className=" text-center">
+        <TypographyH3 className="text-primary" title="No Data Found" />
+        <TypographyP text="Please add Event to show here" />
+      </div>
+    );
+  }
   return (
     <div className="overflow-x-auto container mx-auto">
       <TypographyH3 title="Manage Upcoming Events" className="mb-12 text-center" />

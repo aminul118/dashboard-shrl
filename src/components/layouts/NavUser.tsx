@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import ThemeToggle from './ThemeToggle';
+import Cookies from 'js-cookie';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -39,6 +40,7 @@ export function NavUser() {
   const handleLogout = async () => {
     try {
       const res = await logout(undefined).unwrap();
+      Cookies.remove('authToken');
       toast.success(res.message);
       dispatch(authApi.util.resetApiState());
       navigate('/login');

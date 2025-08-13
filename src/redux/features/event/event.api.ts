@@ -9,6 +9,7 @@ const eventApi = baseApi.injectEndpoints({
         method: 'POST',
         data: eventInfo,
       }),
+      invalidatesTags: ['EVENT'],
     }),
 
     // GET - Get All Events
@@ -17,6 +18,16 @@ const eventApi = baseApi.injectEndpoints({
         url: '/event/get-all',
         method: 'GET',
       }),
+      providesTags: ['EVENT'],
+    }),
+
+    // DELETE - Delete Upcoming Event
+    deleteEvent: builder.mutation({
+      query: (slug) => ({
+        url: `/event/${slug}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['EVENT'],
     }),
 
     // POST - Add Upcoming Event
@@ -26,6 +37,7 @@ const eventApi = baseApi.injectEndpoints({
         method: 'POST',
         data: eventInfo,
       }),
+      invalidatesTags: ['UPCOMING-EVENT'],
     }),
 
     // PATCH - Update Upcoming Event
@@ -35,6 +47,7 @@ const eventApi = baseApi.injectEndpoints({
         method: 'PATCH', // or PUT depending on your backend
         data,
       }),
+      invalidatesTags: ['UPCOMING-EVENT'],
     }),
 
     // GET - Get All Upcoming Events
@@ -43,6 +56,7 @@ const eventApi = baseApi.injectEndpoints({
         url: '/upcoming-event/get-all',
         method: 'GET',
       }),
+      providesTags: ['UPCOMING-EVENT'],
     }),
 
     // DELETE - Delete Upcoming Event
@@ -51,6 +65,7 @@ const eventApi = baseApi.injectEndpoints({
         url: `/upcoming-event/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['UPCOMING-EVENT'],
     }),
   }),
 });
@@ -58,6 +73,7 @@ const eventApi = baseApi.injectEndpoints({
 export const {
   useAddEventMutation,
   useGetEventQuery,
+  useDeleteEventMutation,
   useAddUpcomingEventMutation,
   useGetUpcomingEventsQuery,
   useUpdateUpcomingEventMutation,

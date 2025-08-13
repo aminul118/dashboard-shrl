@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import loginImg from '../../../assets/images/login.svg';
 import {
   Form,
@@ -22,16 +21,25 @@ import Password from '@/components/ui/password';
 import { toast } from 'sonner';
 import { useLoginMutation } from '@/redux/features/auth/auth.api';
 import GoogleLogin from './GoogleLogin';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
-  email: z.email(),
+  email: z.string().email(),
   password: z.string(),
 });
 
 const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const [login] = useLoginMutation();
-  const { state } = useLocation();
   const navigate = useNavigate();
+
+  // ✅ Auto-redirect if already logged in
+  useEffect(() => {
+    const token = Cookies.get('authToken');
+    if (token) {
+      navigate('/'); // already logged in
+    }
+  }, [navigate]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,22 +50,27 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
     const payload = {
       email: data.email,
       password: data.password,
     };
     try {
       const res = await login(payload).unwrap();
-      console.log(res);
-      toast.success(res.message);
-      navigate(state || '/');
+
+      // ✅ Save token in cookie (valid for 7 days)
+      if (res.token) {
+        Cookies.set('authToken', res.token, { expires: 7 });
+      } else {
+        Cookies.set('authToken', 'true', { expires: 7 }); // fallback if no token
+      }
+
+      toast.success(res.message || 'User login successfully');
+      navigate('/');
     } catch (error: any) {
-      console.log(error);
-      if (error.data.message === "Error: User isn't verified") {
+      if (error.data?.message === "Error: User isn't verified") {
         navigate('/verify', { state: payload.email });
       }
-      toast.error(error.data.message || 'Password or Email');
+      toast.error(error.data?.message || 'Password or Email is incorrect');
     }
   };
 
@@ -72,6 +85,8 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
                   <h1 className="text-2xl font-bold">Welcome back</h1>
                   <p className="text-muted-foreground text-balance">Login to your SHRL account</p>
                 </div>
+
+                {/* Email */}
                 <div className="grid gap-3">
                   <FormField
                     control={form.control}
@@ -87,7 +102,8 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
                     )}
                   />
                 </div>
-                {/* Forgot Password */}
+
+                {/* Password */}
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
@@ -108,11 +124,14 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
                     )}
                   />
                 </div>
+
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
+
                 {/* Google Login */}
                 <GoogleLogin />
+
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{' '}
                   <Link to="/register" className="underline underline-offset-4">
@@ -122,6 +141,8 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
               </div>
             </form>
           </Form>
+
+          {/* Right side image */}
           <div className="bg-muted relative hidden md:block">
             <img
               src={loginImg}

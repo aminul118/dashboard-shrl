@@ -9,7 +9,7 @@ const scrollingTextApi = baseApi.injectEndpoints({
         method: 'POST',
         data: eventInfo,
       }),
-      invalidatesTags: ['scrollingText'],
+      invalidatesTags: ['SCROLLING-TEXT'],
     }),
 
     // Update scrolling text by ID
@@ -19,7 +19,7 @@ const scrollingTextApi = baseApi.injectEndpoints({
         method: 'PUT',
         data: eventInfo,
       }),
-      invalidatesTags: ['scrollingText'],
+      invalidatesTags: ['SCROLLING-TEXT'],
     }),
 
     // Delete scrolling text by ID
@@ -28,7 +28,7 @@ const scrollingTextApi = baseApi.injectEndpoints({
         url: `/scrolling-text/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['scrollingText'],
+      invalidatesTags: ['SCROLLING-TEXT'],
     }),
 
     // Get all scrolling texts
@@ -37,7 +37,7 @@ const scrollingTextApi = baseApi.injectEndpoints({
         url: '/scrolling-text/get-all',
         method: 'GET',
       }),
-      providesTags: ['scrollingText'],
+      providesTags: ['SCROLLING-TEXT'],
     }),
   }),
 });

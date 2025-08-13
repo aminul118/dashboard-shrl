@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useDeleteUpcomingEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
+import { useDeleteEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
 import { Button } from '@/components/ui/button';
 import { SquarePen, Trash2 } from 'lucide-react';
 import { TypographyH3 } from '@/components/ui/typography';
@@ -23,15 +23,14 @@ export interface IManageEvent {
 
 const ManageEvent = () => {
   const { data: events, isLoading, refetch } = useGetEventQuery(null);
-  const [deleteUpcomingEvent] = useDeleteUpcomingEventMutation();
+  const [deleteEvent] = useDeleteEventMutation();
 
   const handleUpdate = (id: string) => {
-    console.log('Update event:', id);
     // Navigate or open modal here
   };
 
-  const handleDelete = async (eventId: string) => {
-    return await deleteUpcomingEvent(eventId).unwrap();
+  const handleDelete = async (eventSlug: string) => {
+    return await deleteEvent(eventSlug).unwrap();
   };
 
   if (isLoading) {
@@ -62,7 +61,7 @@ const ManageEvent = () => {
                 <Button onClick={() => handleUpdate(event._id)}>
                   <SquarePen size={16} />
                 </Button>
-                <DeleteConfirmation onConfirm={() => handleDelete(event._id)}>
+                <DeleteConfirmation onConfirm={() => handleDelete(event.slug)}>
                   <Button>
                     <Trash2 />
                   </Button>
