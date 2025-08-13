@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     Component: withAuth(Layout, (role.admin as TRole) || (role.superAdmin as TRole)),
     children: [
       {
-        path: '',
+        index: true,
         Component: Home,
       },
       {
