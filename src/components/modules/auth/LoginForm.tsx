@@ -21,8 +21,6 @@ import Password from '@/components/ui/password';
 import { toast } from 'sonner';
 import { useLoginMutation } from '@/redux/features/auth/auth.api';
 import GoogleLogin from './GoogleLogin';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,14 +30,6 @@ const formSchema = z.object({
 const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-
-  // ✅ Auto-redirect if already logged in
-  useEffect(() => {
-    const token = Cookies.get('authToken');
-    if (token) {
-      navigate('/'); // already logged in
-    }
-  }, [navigate]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,13 +46,6 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
     };
     try {
       const res = await login(payload).unwrap();
-
-      // ✅ Save token in cookie (valid for 7 days)
-      if (res.token) {
-        Cookies.set('authToken', res.token, { expires: 7 });
-      } else {
-        Cookies.set('authToken', 'true', { expires: 7 }); // fallback if no token
-      }
 
       toast.success(res.message || 'User login successfully');
       navigate('/');

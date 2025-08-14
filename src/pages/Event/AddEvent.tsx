@@ -17,41 +17,65 @@ import {
 import { Input } from '@/components/ui/input';
 import { useAddEventMutation } from '@/redux/features/event/event.api';
 import { toast } from 'sonner';
+import MultipleImageDrop from '@/components/ui/multiple-image-drop';
+import ButtonSpinner from '@/components/ui/button-spinner';
 
-// Schema
+// -----------------
+// Zod schema
+// -----------------
 const formSchema = z.object({
   title: z.string().min(8, {
     message: 'Title must be at least 8 characters.',
   }),
   content: z.string(),
+  photos: z
+    .array(z.instanceof(File), {
+      message: 'At least one photo is required',
+    })
+    .min(1, 'At least one photo is required'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
+// -----------------
+// Component
+// -----------------
 const AddEvent = () => {
-  const [addEvent] = useAddEventMutation();
+  const [addEvent, { isLoading }] = useAddEventMutation();
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      content: '', // quill content
+      content: '',
+      photos: [],
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    console.log('Submit Values:', values);
-
+  const onSubmit = async (data: FormValues) => {
     try {
-      const res = await addEvent(values).unwrap();
-      console.log(res);
-      toast.success(res.message);
+      const payload = {
+        title: data.title,
+        content: data.content,
+      };
+
+      const formData = new FormData();
+      formData.append('data', JSON.stringify(payload));
+
+      // Append each file individually
+      data.photos.forEach((file) => {
+        formData.append('files', file); // 'files' must match backend key
+      });
+
+      const toastId = toast.loading('Event adding....');
+
+      const res = await addEvent(formData).unwrap();
+      toast.success(res.message, { id: toastId });
       form.reset();
     } catch (error: any) {
+      console.error(error);
       toast.error('ERROR');
     }
-
-    // send values.username and values.description to backend
-    // axios.post('/api/event', values);
   };
 
   return (
@@ -63,7 +87,7 @@ const AddEvent = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Username */}
+          {/* Title */}
           <FormField
             control={form.control}
             name="title"
@@ -72,6 +96,21 @@ const AddEvent = () => {
                 <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input placeholder="write title here ....." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Photos */}
+          <FormField
+            control={form.control}
+            name="photos"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Photos</FormLabel>
+                <FormControl>
+                  <MultipleImageDrop onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,8 +132,8 @@ const AddEvent = () => {
             )}
           />
 
-          <Button type="submit" className="w-52">
-            Submit
+          <Button type="submit" className="w-52" disabled={isLoading}>
+            {isLoading ? <ButtonSpinner /> : 'Submit'}
           </Button>
         </form>
       </Form>

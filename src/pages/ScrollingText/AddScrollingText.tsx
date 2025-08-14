@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -33,15 +34,13 @@ const AddScrollingText = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
     try {
+      const toastId = toast.loading('Scrolling text adding.......');
       const res = await addScrollingText(values).unwrap();
-      console.log(res);
-      toast.success(res.message);
-    } catch (error) {
-      toast.error('Text added failed');
+      toast.success(res.message || 'Scrolling text added', { id: toastId });
+      form.reset();
+    } catch (error: any) {
+      toast.error(error.message || 'Text added failed');
     }
   };
   return (

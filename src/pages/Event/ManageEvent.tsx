@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDeleteEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
 import { Button } from '@/components/ui/button';
-import { SquarePen, Trash2 } from 'lucide-react';
-import { TypographyH3 } from '@/components/ui/typography';
+import { Trash2 } from 'lucide-react';
+import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import ButtonSpinner from '@/components/ui/button-spinner';
 
 export interface IManageEvent {
   _id: string;
@@ -22,12 +21,8 @@ export interface IManageEvent {
 }
 
 const ManageEvent = () => {
-  const { data: events, isLoading, refetch } = useGetEventQuery(null);
-  const [deleteEvent] = useDeleteEventMutation();
-
-  const handleUpdate = (id: string) => {
-    // Navigate or open modal here
-  };
+  const { data: events, isLoading } = useGetEventQuery(null);
+  const [deleteEvent, { isLoading: deleteLoading }] = useDeleteEventMutation();
 
   const handleDelete = async (eventSlug: string) => {
     return await deleteEvent(eventSlug).unwrap();
@@ -35,6 +30,15 @@ const ManageEvent = () => {
 
   if (isLoading) {
     return <p>Loading...</p>;
+  }
+
+  if (events?.data.length === 0) {
+    return (
+      <div className=" text-center">
+        <TypographyH3 className="text-primary" title="No Event Found" />
+        <TypographyP text="Please add Event to show here" />
+      </div>
+    );
   }
 
   return (
@@ -58,12 +62,9 @@ const ManageEvent = () => {
                 {event.date ? new Date(event.date).toLocaleDateString() : 'No date'}
               </td>
               <td className="px-4 py-2 border space-x-2 flex">
-                <Button onClick={() => handleUpdate(event._id)}>
-                  <SquarePen size={16} />
-                </Button>
                 <DeleteConfirmation onConfirm={() => handleDelete(event.slug)}>
-                  <Button>
-                    <Trash2 />
+                  <Button disabled={deleteLoading}>
+                    {deleteLoading ? <ButtonSpinner /> : <Trash2 />}
                   </Button>
                 </DeleteConfirmation>
               </td>

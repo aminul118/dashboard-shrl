@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import { TypographyH3, TypographyP } from '@/components/ui/typography';
@@ -7,7 +5,7 @@ import {
   useDeleteScrollingTextMutation,
   useGetScrollingTextQuery,
 } from '@/redux/features/scrollingText/scrollingText.api';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 interface IText {
   _id: string;
@@ -21,11 +19,6 @@ const ManageScrollingText = () => {
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {'Something went wrong'}</p>;
-
-  const handleUpdate = (id: string) => {
-    // TODO: Implement update logic (e.g. open modal or navigate to edit page)
-    console.log('Update', id);
-  };
 
   const handleDelete = async (id: string) => {
     return await deleteScrollingText(id).unwrap();
@@ -55,10 +48,7 @@ const ManageScrollingText = () => {
             <tr key={text._id} className="text-center border-t">
               <td className="border px-4 py-2">{i + 1}</td>
               <td className="border px-4 py-2 text-left">{text.text}</td>
-              <td className="border px-4 py-2 space-x-2">
-                <Button onClick={() => handleUpdate(text._id)}>
-                  <SquarePen />
-                </Button>
+              <td className="border px-4 py-2 ">
                 <DeleteConfirmation onConfirm={() => handleDelete(text._id)}>
                   <Button>
                     <Trash2 />
