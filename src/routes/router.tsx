@@ -12,6 +12,7 @@ import type { TRole } from '@/types';
 import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
+import Test from '@/pages/Test';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: 'unauthorized',
     Component: Unauthorized,
+  },
+  {
+    path: 'test',
+    Component: Test,
   },
 ]);
 

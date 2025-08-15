@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Send } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -27,6 +26,7 @@ import {
 } from '@/components/ui/form';
 import { useSendParticipantEmailMutation } from '@/redux/features/team/team.api';
 import { toast } from 'sonner';
+import ReactQuil from '../common/ReactQuil';
 
 const formSchema = z.object({
   subject: z.string().trim().min(10, { message: 'Subject must be at least 10 characters.' }),
@@ -90,7 +90,7 @@ export function TeamJoinSendMessage({ email }: { email: string }) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-xl">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Send a Message</DialogTitle>
           <DialogDescription>Write your subject and message, then click send.</DialogDescription>
@@ -120,7 +120,7 @@ export function TeamJoinSendMessage({ email }: { email: string }) {
               )}
             />
 
-            {/* Message */}
+            {/* Message*/}
             <FormField
               control={form.control}
               name="message"
@@ -128,14 +128,7 @@ export function TeamJoinSendMessage({ email }: { email: string }) {
                 <FormItem>
                   <FormLabel>Message</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className="h-60"
-                      placeholder="Enter your message"
-                      autoComplete="off"
-                      {...field}
-                      disabled={isSubmitting}
-                      aria-invalid={!!form.formState.errors.message}
-                    />
+                    <ReactQuil value={field.value} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
