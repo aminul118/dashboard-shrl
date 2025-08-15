@@ -1,4 +1,7 @@
-import { useTeamJoinRequestQuery } from '@/redux/features/team/team.api';
+import {
+  useDeleteJoinRequestMutation,
+  useTeamJoinRequestQuery,
+} from '@/redux/features/team/team.api';
 import {
   Table,
   TableBody,
@@ -10,6 +13,9 @@ import {
 import GradientTitle from '@/components/ui/gradientTitle';
 import { ShowRequestModal } from '@/components/modules/teamJoinReguest/ShowRequestModal';
 import { TeamJoinSendMessage } from '@/components/modules/teamJoinReguest/TeamJoinSendMessage';
+import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 
 export interface IRequestJoin {
   name: string;
@@ -29,12 +35,26 @@ export interface IRequestJoin {
 
 const TeamJoinRequest = () => {
   const { data, isLoading } = useTeamJoinRequestQuery(undefined);
+  const [deleteJoinRequest] = useDeleteJoinRequestMutation();
 
   if (isLoading) {
     return <p>Loading..</p>;
   }
 
   const requests = data?.data || [];
+
+  const handleDelete = async (id: string) => {
+    return await deleteJoinRequest(id).unwrap();
+  };
+
+  if (requests.length === 0) {
+    return (
+      <GradientTitle
+        title="Team Request not found"
+        description="If anyone send request you can show immediately."
+      />
+    );
+  }
 
   return (
     <div className="container mx-auto overflow-x-auto">
@@ -60,9 +80,15 @@ const TeamJoinRequest = () => {
               <TableCell>{req.phone}</TableCell>
               <TableCell>{req.occupation}</TableCell>
               <TableCell>{new Date(req.createdAt).toLocaleString()}</TableCell>
+              {/* Table Actions */}
               <TableCell className="flex items-center gap-2">
                 <ShowRequestModal payload={req} />
                 <TeamJoinSendMessage email={req.email} />
+                <DeleteConfirmation onConfirm={() => handleDelete(req._id)}>
+                  <Button size="sm">
+                    <Trash2 />
+                  </Button>
+                </DeleteConfirmation>
               </TableCell>
             </TableRow>
           ))}

@@ -1,9 +1,10 @@
 import { useDeleteEventMutation, useGetEventQuery } from '@/redux/features/event/event.api';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
+import { TypographyH3 } from '@/components/ui/typography';
 import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 import ButtonSpinner from '@/components/ui/button-spinner';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 export interface IManageEvent {
   _id: string;
@@ -34,10 +35,10 @@ const ManageEvent = () => {
 
   if (events?.data.length === 0) {
     return (
-      <div className=" text-center">
-        <TypographyH3 className="text-primary" title="No Event Found" />
-        <TypographyP text="Please add Event to show here" />
-      </div>
+      <GradientTitle
+        title="No Event Found"
+        description="Add event from portal that you can manage from this page"
+      />
     );
   }
 

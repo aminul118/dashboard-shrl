@@ -11,7 +11,8 @@ import { Trash2 } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
+import { TypographyH3 } from '@/components/ui/typography';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 export interface IUpcomingEventData {
   _id: string;
@@ -62,10 +63,10 @@ const ManageUpcomingEvent = () => {
 
   if (upcomingEvents?.data?.length === 0) {
     return (
-      <div className=" text-center">
-        <TypographyH3 className="text-primary" title="No Data Found" />
-        <TypographyP text="Please add Event to show here" />
-      </div>
+      <GradientTitle
+        title="No Event Found"
+        description="Add Event to show and mange from this page"
+      />
     );
   }
   return (

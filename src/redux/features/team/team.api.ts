@@ -64,6 +64,15 @@ const teamApi = baseApi.injectEndpoints({
         data: emailData,
       }),
     }),
+
+    // DELETE - Delete Join team request
+    deleteJoinRequest: builder.mutation({
+      query: (id) => ({
+        url: `/join-team/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['JOIN-TEAM'],
+    }),
   }),
 });
 
@@ -71,4 +80,5 @@ export const {
   useTeamJoinRequestQuery,
   useSingleTeamJoinRequestQuery,
   useSendParticipantEmailMutation,
+  useDeleteJoinRequestMutation,
 } = teamApi;
