@@ -1,7 +1,6 @@
 import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import GradientTitle from '@/components/ui/gradientTitle';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import {
   useDeleteScrollingTextMutation,
   useGetScrollingTextQuery,
@@ -27,10 +26,10 @@ const ManageScrollingText = () => {
 
   if (scrollingText?.data?.length === 0) {
     return (
-      <div className=" text-center">
-        <TypographyH3 className="text-primary" title="No Data Found" />
-        <TypographyP text="Please add scrolling text to show here" />
-      </div>
+      <GradientTitle
+        title="No Scrolling Text Found"
+        description="Add Scrolling text from admin dashboard to show and mange from this page."
+      />
     );
   }
   return (

@@ -47,7 +47,7 @@ const AddScrollingText = () => {
     <div className="max-w-3xl w-full mx-auto">
       <GradientTitle
         title="Add Scrolling Text"
-        description="his text will show in event page top of the website"
+        description="This text will show in event page top of the website"
       />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
