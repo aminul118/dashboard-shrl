@@ -1,5 +1,6 @@
 import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
+import GradientTitle from '@/components/ui/gradientTitle';
 import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import {
   useDeleteScrollingTextMutation,
@@ -34,7 +35,7 @@ const ManageScrollingText = () => {
   }
   return (
     <div className="overflow-x-auto max-w-5xl w-full mx-auto">
-      <TypographyH3 title="Manage Scrolling Text" className="mb-12 text-center" />
+      <GradientTitle title="Manage Scrolling Text" />
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr className="bg-primary text-white">

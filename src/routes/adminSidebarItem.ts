@@ -6,8 +6,9 @@ import AddScrollingText from '@/pages/ScrollingText/AddScrollingText';
 import ManageScrollingText from '@/pages/ScrollingText/ManageScrollingText';
 import AddTeamMember from '@/pages/Team/AddTeamMember';
 import ManageTeamMember from '@/pages/Team/ManageTeamMember';
+import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
 import type { INavMenu } from '@/types';
-import { Calendar, GalleryHorizontal, User, UserStar } from 'lucide-react';
+import { Calendar, GalleryHorizontal, User } from 'lucide-react';
 
 export const navMenu: INavMenu[] = [
   {
@@ -38,7 +39,7 @@ export const navMenu: INavMenu[] = [
     ],
   },
   {
-    title: 'Team Members',
+    title: 'Team',
     url: '#',
     icon: User,
     items: [
@@ -51,6 +52,11 @@ export const navMenu: INavMenu[] = [
         title: 'Manage Team Member',
         url: '/manage-team-member',
         Component: ManageTeamMember,
+      },
+      {
+        title: 'Team Join Request',
+        url: '/team-join-request',
+        Component: TeamJoinRequest,
       },
     ],
   },
@@ -72,16 +78,3 @@ export const navMenu: INavMenu[] = [
     ],
   },
 ];
-
-const adminSidebarItem = {
-  navMenu,
-  projects: [
-    {
-      name: 'Manage User',
-      url: '/manage-user',
-      icon: UserStar,
-    },
-  ],
-};
-
-export default adminSidebarItem;

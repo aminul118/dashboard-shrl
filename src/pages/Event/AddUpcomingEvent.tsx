@@ -19,6 +19,7 @@ import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import { toast } from 'sonner';
 import ImageDrop from '@/components/ui/image-drop';
 import { useAddUpcomingEventMutation } from '@/redux/features/event/event.api';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 // ✅ Validation schema
 const formSchema = z.object({
@@ -60,10 +61,11 @@ const AddUpcomingEvent = () => {
 
   return (
     <div className="max-w-2xl w-full mx-auto mt-10">
-      <div className="text-center mb-12">
-        <TypographyH3 title="Add Upcoming Event" />
-        <TypographyP text="Add Your upcoming event so people know your next step" />
-      </div>
+      <GradientTitle
+        title="Add Upcoming Event"
+        description="Add Your upcoming event so people know your next step"
+      />
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Title */}

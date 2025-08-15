@@ -12,10 +12,10 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useAddScrollingTextMutation } from '@/redux/features/scrollingText/scrollingText.api';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 const formSchema = z.object({
   text: z.string().min(10, {
@@ -45,10 +45,10 @@ const AddScrollingText = () => {
   };
   return (
     <div className="max-w-3xl w-full mx-auto">
-      <div className="text-center mb-12">
-        <TypographyH3 title="Add Scrolling Text" />
-        <TypographyP text="This text will show in event page top of the website" />
-      </div>
+      <GradientTitle
+        title="Add Scrolling Text"
+        description="his text will show in event page top of the website"
+      />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

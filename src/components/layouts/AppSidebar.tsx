@@ -3,8 +3,8 @@ import { NavMain } from './NavMain';
 import { NavUser } from './NavUser';
 import { Link } from 'react-router';
 import logo from '../../assets/images/logo-white.png';
-import adminSidebarItem from '@/routes/adminSidebarItem';
-import { NavProjects } from './NavProject';
+
+import { navMenu } from '@/routes/adminSidebarItem';
 
 // This is sample data.
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
@@ -16,8 +16,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={adminSidebarItem.navMenu} />
-        <NavProjects projects={adminSidebarItem.projects} />
+        <NavMain items={navMenu} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

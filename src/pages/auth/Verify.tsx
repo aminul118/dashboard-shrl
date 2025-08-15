@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -19,7 +18,6 @@ import { Minus } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-
 import { cn } from '@/lib/utils';
 import { useSendOtpMutation, useVerifyOtpMutation } from '@/redux/features/auth/auth.api';
 
@@ -33,10 +31,8 @@ const FormSchema = z.object({
 const Verify = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(0);
-
   const [sendOTP] = useSendOtpMutation();
   const [verifyOTP] = useVerifyOtpMutation();
 
@@ -62,6 +58,7 @@ const Verify = () => {
     const toastId = toast.loading('Sending OTP...');
     try {
       const res = await sendOTP({ email: state }).unwrap();
+      console.log(res);
       if (res.success) {
         toast.success(`OTP sent to ${state}`, { id: toastId });
         setOtpSent(true);
@@ -70,6 +67,7 @@ const Verify = () => {
         toast.error(res.message || 'Failed to send OTP', { id: toastId });
       }
     } catch (err: any) {
+      console.log(err);
       toast.error(err?.data?.message || 'Error sending OTP', { id: toastId });
     }
   };

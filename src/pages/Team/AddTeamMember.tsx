@@ -1,9 +1,7 @@
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
 import ReactQuil from '@/components/modules/common/ReactQuil';
-import { TypographyH3 } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import ImageDrop from '@/components/ui/image-drop';
 import { Plus, Trash2 } from 'lucide-react';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 // ✅ Zod Schema
 const formSchema = z.object({
@@ -52,7 +51,7 @@ const AddTeamMember = () => {
   return (
     <div className="container mx-auto">
       <div className="text-center mb-8">
-        <TypographyH3 title="Add Team Member" />
+        <GradientTitle title="Add Team Member" />
       </div>
 
       <Form {...form}>

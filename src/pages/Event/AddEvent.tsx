@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ReactQuil from '@/components/modules/common/ReactQuil';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,6 +18,7 @@ import { useAddEventMutation } from '@/redux/features/event/event.api';
 import { toast } from 'sonner';
 import MultipleImageDrop from '@/components/ui/multiple-image-drop';
 import ButtonSpinner from '@/components/ui/button-spinner';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 // -----------------
 // Zod schema
@@ -80,10 +80,7 @@ const AddEvent = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="text-center mb-8">
-        <TypographyH3 title="Add Event" />
-        <TypographyP text="This event which is already happened" />
-      </div>
+      <GradientTitle title="Add Event" description="This event which is already happened" />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
