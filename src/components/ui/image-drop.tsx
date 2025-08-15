@@ -29,6 +29,7 @@ export default function ImageDrop({ onChange }: ImageDropProps) {
 
   const previewUrl = files[0]?.preview || null;
 
+  // Propagate value to parent (react-hook-form)
   useEffect(() => {
     if (files.length > 0) {
       onChange(files[0].file as File);
@@ -36,6 +37,15 @@ export default function ImageDrop({ onChange }: ImageDropProps) {
       onChange(null);
     }
   }, [files, onChange]);
+
+  // Best-effort cleanup if the hook provides blob URLs
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -69,7 +79,8 @@ export default function ImageDrop({ onChange }: ImageDropProps) {
               <p className="text-muted-foreground text-xs">
                 SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)
               </p>
-              <Button variant="outline" className="mt-4" onClick={openFileDialog}>
+              {/* IMPORTANT: type="button" so this doesn't submit the parent form */}
+              <Button type="button" variant="outline" className="mt-4" onClick={openFileDialog}>
                 <UploadIcon className="-ms-1 size-4 opacity-60" aria-hidden="true" />
                 Select image
               </Button>

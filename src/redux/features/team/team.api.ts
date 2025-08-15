@@ -2,14 +2,14 @@ import baseApi from '@/redux/baseApi';
 
 const teamApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // POST - Add Regular Event
+    // POST - Add Team Member
     addTeamMember: builder.mutation({
-      query: (eventInfo) => ({
-        url: '/event/create',
+      query: (teamInfo) => ({
+        url: '/team/create',
         method: 'POST',
-        data: eventInfo,
+        data: teamInfo,
       }),
-      invalidatesTags: ['EVENT'],
+      invalidatesTags: ['TEAM'],
     }),
     // POST - Add Regular Event
     updateTeamMember: builder.mutation({
@@ -24,19 +24,19 @@ const teamApi = baseApi.injectEndpoints({
     // GET - Get All Upcoming Events
     getAllTeamMembers: builder.query({
       query: () => ({
-        url: '/upcoming-event/get-all',
+        url: '/team/get-all',
         method: 'GET',
       }),
-      providesTags: ['UPCOMING-EVENT'],
+      providesTags: ['TEAM'],
     }),
 
     // DELETE - Delete Upcoming Event
     deleteTeamMember: builder.mutation({
-      query: (id) => ({
-        url: `/upcoming-event/${id}`,
+      query: (slug) => ({
+        url: `/team/${slug}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['UPCOMING-EVENT'],
+      invalidatesTags: ['TEAM'],
     }),
 
     // DELETE - Delete Upcoming Event
@@ -77,6 +77,9 @@ const teamApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useAddTeamMemberMutation,
+  useGetAllTeamMembersQuery,
+  useDeleteTeamMemberMutation,
   useTeamJoinRequestQuery,
   useSingleTeamJoinRequestQuery,
   useSendParticipantEmailMutation,
