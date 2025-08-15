@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -15,7 +15,6 @@ import {
 import { Input } from '@/components/ui/input';
 import DatePicker from '@/components/ui/date-picker';
 import { Textarea } from '@/components/ui/textarea';
-import { TypographyH3, TypographyP } from '@/components/ui/typography';
 import { toast } from 'sonner';
 import ImageDrop from '@/components/ui/image-drop';
 import { useAddUpcomingEventMutation } from '@/redux/features/event/event.api';

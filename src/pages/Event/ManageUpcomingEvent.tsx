@@ -7,7 +7,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import { toast } from 'sonner';
 import { useState } from 'react';
@@ -43,10 +43,10 @@ const ManageUpcomingEvent = () => {
     );
   }
 
-  const handleUpdate = (id: string) => {
-    // console.log('Update event:', id);
-    // Navigate or open modal here
-  };
+  // const handleUpdate = (id: string) => {
+  //   // console.log('Update event:', id);
+  //   // Navigate or open modal here
+  // };
 
   const handleDelete = async (id: string) => {
     setDeletingId(id);
@@ -94,9 +94,9 @@ const ManageUpcomingEvent = () => {
               <td className="px-4 py-2">{event.title}</td>
               <td className="px-4 py-2">{event.time}</td>
               <td className="space-x-2">
-                <Button onClick={() => handleUpdate(event._id)}>
+                {/* <Button onClick={() => handleUpdate(event._id)}>
                   <SquarePen size={16} />
-                </Button>
+                </Button> */}
                 <Button onClick={() => handleDelete(event._id)} disabled={deletingId === event._id}>
                   {deletingId === event._id ? <ButtonSpinner /> : <Trash2 size={16} />}
                 </Button>
