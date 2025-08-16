@@ -42,7 +42,7 @@ export function ShowRequestModal({ payload }: { payload: IRequestJoin }) {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          <Eye className="h-4 w-4" />
+          <Eye />
         </Button>
       </DialogTrigger>
 
@@ -52,7 +52,7 @@ export function ShowRequestModal({ payload }: { payload: IRequestJoin }) {
           <DialogDescription>Information provided by the applicant.</DialogDescription>
         </DialogHeader>
 
-        <div className="bg-muted rounded-lg p-4">
+        <div className=" rounded-lg p-4">
           <dl className="grid grid-cols-1 gap-y-4">
             {Object.entries(fieldsToShow).map(([key, value]) => (
               <div key={key} className="border-b pb-2">

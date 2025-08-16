@@ -20,7 +20,7 @@ const ReactQuil = ({ value, onChange }: ReactQuilProps) => {
         onChange(quill.root.innerHTML);
       });
     }
-  }, [quill]);
+  }, [onChange, quill, value]);
 
   return <div ref={quillRef} className="border" />;
 };
