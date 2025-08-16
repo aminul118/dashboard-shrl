@@ -1,5 +1,3 @@
-// components/modules/common/ReactQuil.tsx
-
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css';
 import './quilStyle.css';

@@ -17,7 +17,7 @@ import Test from '@/pages/Test';
 const router = createBrowserRouter([
   {
     path: '',
-    Component: withAuth(Layout, [role.admin as TRole, role.superAdmin as TRole]),
+    Component: withAuth(Layout, role.admin as TRole),
     errorElement: <NotFound />,
     children: [
       {
