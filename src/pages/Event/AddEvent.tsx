@@ -52,6 +52,7 @@ const AddEvent = () => {
   });
 
   const onSubmit = async (data: FormValues) => {
+    const toastId = toast.loading('Event adding....');
     try {
       const payload = {
         title: data.title,
@@ -66,14 +67,11 @@ const AddEvent = () => {
         formData.append('files', file); // 'files' must match backend key
       });
 
-      const toastId = toast.loading('Event adding....');
-
       const res = await addEvent(formData).unwrap();
       toast.success(res.message, { id: toastId });
       form.reset();
     } catch (error: any) {
-      console.error(error);
-      toast.error('ERROR');
+      toast.error(error.message || 'ERROR', { id: toastId });
     }
   };
 
