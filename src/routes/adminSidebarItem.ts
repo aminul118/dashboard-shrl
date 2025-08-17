@@ -8,6 +8,7 @@ import AddTeamMember from '@/pages/Team/AddTeamMember';
 import ManageTeamMember from '@/pages/Team/ManageTeamMember';
 import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
 import type { INavMenu } from '@/types';
+
 import { Calendar, GalleryHorizontal, User } from 'lucide-react';
 
 export const navMenu: INavMenu[] = [

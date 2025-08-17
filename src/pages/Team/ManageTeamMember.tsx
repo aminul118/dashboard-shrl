@@ -17,10 +17,9 @@ import {
   useGetAllTeamMembersQuery,
 } from '@/redux/features/team/team.api';
 import { Trash2, RefreshCw } from 'lucide-react';
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import type { SerializedError } from '@reduxjs/toolkit';
+import ManageTeamMemberSkeleton from './ManageTeamMemberSkeleton';
 
-type TeamMember = {
+interface TeamMember {
   _id: string;
   slug: string;
   name: string;
@@ -28,33 +27,10 @@ type TeamMember = {
   photo?: string;
   email?: string;
   shrlDesignation?: string;
-};
-
-const COLS = 6;
-
-function getErrorMessage(error: unknown): string {
-  const fallback = 'Something went wrong. Please try again.';
-  if (!error) return fallback;
-
-  const e = error as FetchBaseQueryError | SerializedError | any;
-
-  if (typeof (e as any)?.status !== 'undefined') {
-    const status = (e as any).status;
-    const data = (e as any).data;
-    const msg = typeof data === 'string' ? data : data?.message || data?.error || data?.detail;
-    return msg || `Request failed (${String(status)}).`;
-  }
-
-  if (typeof (e as any)?.message === 'string' && (e as any).message) {
-    return (e as any).message;
-  }
-
-  return fallback;
 }
 
 const ManageTeamMember = () => {
-  const { data, isLoading, isFetching, isError, error, refetch } =
-    useGetAllTeamMembersQuery(undefined);
+  const { data, isLoading, isFetching, isError, refetch } = useGetAllTeamMembersQuery(undefined);
 
   const [deleteTeamMember] = useDeleteTeamMemberMutation();
   const imgFallbackRef = useRef(new Set<string>());
@@ -69,20 +45,6 @@ const ManageTeamMember = () => {
   const handleDelete = async (slug: string) => {
     return await deleteTeamMember(slug).unwrap();
   };
-
-  const renderSkeleton = (count = 5) => (
-    <TableBody>
-      {Array.from({ length: count }).map((_, i) => (
-        <TableRow key={`sk-${i}`} className="animate-pulse">
-          {Array.from({ length: COLS }).map((__, j) => (
-            <TableCell key={`skc-${i}-${j}`}>
-              <div className="h-8 w-24 bg-muted rounded" />
-            </TableCell>
-          ))}
-        </TableRow>
-      ))}
-    </TableBody>
-  );
 
   return (
     <div className="container mx-auto">
@@ -113,15 +75,14 @@ const ManageTeamMember = () => {
         </TableHeader>
 
         {/* Loading state */}
-        {isLoading && renderSkeleton(6)}
+        {isLoading && <ManageTeamMemberSkeleton count={6} />}
 
         {/* Error state */}
         {!isLoading && isError && (
           <TableBody>
             <TableRow>
-              <TableCell colSpan={COLS}>
+              <TableCell>
                 <div className="rounded-md border border-destructive/30 bg-destructive/10 p-4">
-                  <p className="text-sm text-destructive">{getErrorMessage(error)}</p>
                   <div className="mt-2">
                     <Button onClick={() => refetch()} size="sm">
                       Try again
@@ -181,7 +142,7 @@ const ManageTeamMember = () => {
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={COLS} className="text-center text-sm text-muted-foreground">
+                <TableCell className="text-center text-sm text-muted-foreground">
                   {isFetching ? 'Loading…' : 'No team members found.'}
                 </TableCell>
               </TableRow>
