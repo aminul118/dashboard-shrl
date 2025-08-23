@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ReactQuil from '@/components/modules/common/ReactQuil';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -18,6 +17,8 @@ import { toast } from 'sonner';
 import MultipleImageDrop from '@/components/ui/multiple-image-drop';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import GradientTitle from '@/components/ui/gradientTitle';
+import { lazy, Suspense } from 'react';
+const ReactQuil = lazy(() => import('@/components/modules/common/ReactQuil'));
 
 // -----------------
 // Zod schema
@@ -119,7 +120,9 @@ const AddEvent = () => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <ReactQuil value={field.value} onChange={field.onChange} />
+                  <Suspense fallback={<div>Loading editor…</div>}>
+                    <ReactQuil value={field.value} onChange={field.onChange} />
+                  </Suspense>
                 </FormControl>
                 <FormMessage />
               </FormItem>
