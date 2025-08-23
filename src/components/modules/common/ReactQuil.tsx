@@ -1,127 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// src/components/common/ReactQuillJS.tsx
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect } from 'react';
 import { useQuill } from 'react-quilljs';
-import 'quill/dist/quill.snow.css'; // Quill theme CSS
-import './quilStyle.css'; // your custom CSS (optional)
+import 'quill/dist/quill.snow.css';
+import './quilStyle.css';
 
-export interface ReactQuillJSProps {
+interface QuilJsProps {
   value: string;
   onChange: (value: string) => void;
-  placeholder?: string;
-  readOnly?: boolean;
-  className?: string;
-  height?: number | string; // e.g., 300 or "300px"
-  toolbar?: any; // custom toolbar config (optional)
+  height?: number;
 }
 
-export default function ReactQuillJS({
-  value,
-  onChange,
-  placeholder = 'Write something…',
-  readOnly = false,
-  className = '',
-  height = 300,
-  toolbar,
-}: ReactQuillJSProps) {
-  // Memoize modules so Quill doesn't re-init
-  const modules = useMemo(
-    () => ({
-      toolbar: toolbar ?? [
-        [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'code-block'],
-        ['link', 'image'],
-        [{ align: [] }, { color: [] }, { background: [] }],
-        ['clean'],
-      ],
-      clipboard: { matchVisual: false },
-    }),
-    [toolbar],
-  );
+const ReactQuil = ({ value, onChange, height = 700 }: QuilJsProps) => {
+  const { quill, quillRef } = useQuill();
 
-  const formats = useMemo(
-    () => [
-      'header',
-      'bold',
-      'italic',
-      'underline',
-      'strike',
-      'list',
-      'bullet',
-      'blockquote',
-      'code-block',
-      'link',
-      'image',
-      'align',
-      'color',
-      'background',
-    ],
-    [],
-  );
-
-  const { quill, quillRef } = useQuill({
-    theme: 'snow',
-    modules,
-    formats,
-    placeholder,
-    readOnly,
-  });
-
-  // Track last HTML we set to avoid loops
-  const lastHtmlRef = useRef<string>('');
-
-  // Initialize/Sync external value -> editor (only when it actually changed)
+  // Initialize editor with initial value and setup listener
   useEffect(() => {
     if (!quill) return;
 
-    const current = quill.root.innerHTML || '';
-    const external = value || '';
+    quill.clipboard.dangerouslyPasteHTML(value); // Set initial value
 
-    // If the external value differs from what the editor currently has
-    if (external !== current) {
-      // setContents via clipboard to accept HTML
-      quill.clipboard.dangerouslyPasteHTML(external);
-      lastHtmlRef.current = external;
-    }
-  }, [quill, value]);
-
-  // Push editor changes -> external onChange (debounced)
-  useEffect(() => {
-    if (!quill) return;
-
-    let debounceTimer: any;
-
-    const handler = () => {
-      const html = quill.root.innerHTML || '';
-      // Avoid firing onChange if nothing changed compared to last set
-      if (html !== lastHtmlRef.current) {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          lastHtmlRef.current = html;
-          onChange(html);
-        }, 120); // small debounce to reduce chatter
-      }
+    const handleChange = () => {
+      onChange(quill.root.innerHTML);
     };
 
-    quill.on('text-change', handler);
+    quill.on('text-change', handleChange);
+
+    // Cleanup listener on unmount or when quill changes
     return () => {
-      clearTimeout(debounceTimer);
-      quill.off('text-change', handler);
+      quill.off('text-change', handleChange);
     };
-  }, [quill, onChange]);
+  }, [quill]);
+
+  // Update editor if parent value changes
+  useEffect(() => {
+    if (!quill) return;
+    if (value !== quill.root.innerHTML) {
+      quill.clipboard.dangerouslyPasteHTML(value);
+    }
+  }, [value, quill]);
 
   return (
-    <div
-      className={className}
-      style={{
-        border: '1px solid rgba(0,0,0,0.1)',
-        borderRadius: 8,
-        overflow: 'hidden',
-      }}
-    >
-      <div ref={quillRef} style={{ minHeight: height }} />
-    </div>
+    <div ref={quillRef} className="bg-black " style={{ height, color: 'white', border: 'none' }} />
   );
-}
+};
+
+export default ReactQuil;
