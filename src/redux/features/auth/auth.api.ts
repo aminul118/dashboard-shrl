@@ -10,6 +10,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         data: userInfo,
       }),
+      invalidatesTags: ['USER'],
     }),
 
     // Log out
@@ -28,6 +29,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         data: userInfo,
       }),
+      invalidatesTags: ['USER'],
     }),
 
     // Send OTP
