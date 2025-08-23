@@ -3,7 +3,6 @@
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import ReactQuil from '@/components/modules/common/ReactQuil';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -20,6 +19,8 @@ import GradientTitle from '@/components/ui/gradientTitle';
 import { toast } from 'sonner';
 import { useAddTeamMemberMutation } from '@/redux/features/team/team.api';
 import type { FieldArrayPath } from 'react-hook-form';
+import { lazy, Suspense } from 'react';
+const ReactQuil = lazy(() => import('@/components/modules/common/ReactQuil'));
 
 // ✅ Zod Schema
 const formSchema = z.object({
@@ -209,7 +210,9 @@ const AddTeamMember = () => {
               <FormItem>
                 <FormLabel>Bio</FormLabel>
                 <FormControl>
-                  <ReactQuil value={field.value} onChange={field.onChange} />
+                  <Suspense fallback={<div>Loading editor…</div>}>
+                    <ReactQuil value={field.value} onChange={field.onChange} />
+                  </Suspense>
                 </FormControl>
                 <FormMessage />
               </FormItem>
