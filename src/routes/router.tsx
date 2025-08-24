@@ -13,8 +13,6 @@ import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
 
-import Quil2Wrapper from '@/components/modules/common/QuilWrapper';
-
 const router = createBrowserRouter([
   {
     path: '',
@@ -47,10 +45,6 @@ const router = createBrowserRouter([
   {
     path: 'unauthorized',
     Component: Unauthorized,
-  },
-  {
-    path: 'quil',
-    Component: Quil2Wrapper,
   },
 ]);
 

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// components/ReactQuil.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css';
 import './quilStyle.css';
 
@@ -11,42 +10,32 @@ interface QuilJsProps {
   height?: number;
 }
 
-const ReactQuil: React.FC<QuilJsProps> = ({ value, onChange, height = 700, border = 'none' }) => {
-  const [quillRef, setQuillRef] = useState<HTMLDivElement | null>(null);
+const ReactQuil = ({ value, onChange, height = 700, border = 'none' }: QuilJsProps) => {
+  const { quill, quillRef } = useQuill();
 
   useEffect(() => {
-    let quillInstance: any;
+    if (!quill) return;
 
-    if (quillRef) {
-      import('quill').then((QuillModule) => {
-        const Quill = QuillModule.default;
-
-        quillInstance = new Quill(quillRef, {
-          theme: 'snow',
-        });
-
-        // Set initial value
-        if (value !== quillInstance.root.innerHTML) {
-          quillInstance.clipboard.dangerouslyPasteHTML(value);
-        }
-
-        // Handle changes
-        const handleChange = () => {
-          const html = quillInstance.root.innerHTML;
-          if (html !== value) onChange(html);
-        };
-
-        quillInstance.on('text-change', handleChange);
-
-        // Cleanup
-        return () => {
-          quillInstance.off('text-change', handleChange);
-        };
-      });
+    // Only set initial content if different
+    if (value !== quill.root.innerHTML) {
+      quill.clipboard.dangerouslyPasteHTML(value);
     }
-  }, [quillRef, value, onChange]);
 
-  return <div ref={setQuillRef} className="dark:bg-black" style={{ height, border }} />;
+    const handleChange = () => {
+      const html = quill.root.innerHTML;
+      if (html !== value) {
+        onChange(html);
+      }
+    };
+
+    quill.on('text-change', handleChange);
+
+    return () => {
+      quill.off('text-change', handleChange);
+    };
+  }, [quill, value, onChange]);
+
+  return <div ref={quillRef} className="dark:bg-black" style={{ height, border }} />;
 };
 
 export default ReactQuil;
