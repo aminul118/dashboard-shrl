@@ -11,6 +11,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  optimizeDeps: {
+    include: ['quill', 'react-quilljs'],
+  },
   server: {
     port: 3000,
   },

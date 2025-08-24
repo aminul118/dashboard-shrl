@@ -12,7 +12,8 @@ import type { TRole } from '@/types';
 import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
-import Test from '@/pages/Test';
+
+import Quil2Wrapper from '@/components/modules/common/QuilWrapper';
 
 const router = createBrowserRouter([
   {
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
     Component: Unauthorized,
   },
   {
-    path: 'test',
-    Component: Test,
+    path: 'quil',
+    Component: Quil2Wrapper,
   },
 ]);
 

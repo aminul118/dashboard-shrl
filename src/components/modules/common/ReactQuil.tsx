@@ -1,46 +1,52 @@
-import { useEffect } from 'react';
-import { useQuill } from 'react-quilljs';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// components/ReactQuil.tsx
+import React, { useEffect, useState } from 'react';
 import 'quill/dist/quill.snow.css';
 import './quilStyle.css';
 
 interface QuilJsProps {
   value: string;
   onChange: (value: string) => void;
+  border?: string;
   height?: number;
 }
 
-const ReactQuil = ({ value, onChange, height = 700 }: QuilJsProps) => {
-  const { quill, quillRef } = useQuill();
+const ReactQuil: React.FC<QuilJsProps> = ({ value, onChange, height = 700, border = 'none' }) => {
+  const [quillRef, setQuillRef] = useState<HTMLDivElement | null>(null);
 
-  // Initialize editor with initial value and setup listener
   useEffect(() => {
-    if (!quill) return;
+    let quillInstance: any;
 
-    quill.clipboard.dangerouslyPasteHTML(value); // Set initial value
+    if (quillRef) {
+      import('quill').then((QuillModule) => {
+        const Quill = QuillModule.default;
 
-    const handleChange = () => {
-      onChange(quill.root.innerHTML);
-    };
+        quillInstance = new Quill(quillRef, {
+          theme: 'snow',
+        });
 
-    quill.on('text-change', handleChange);
+        // Set initial value
+        if (value !== quillInstance.root.innerHTML) {
+          quillInstance.clipboard.dangerouslyPasteHTML(value);
+        }
 
-    // Cleanup listener on unmount or when quill changes
-    return () => {
-      quill.off('text-change', handleChange);
-    };
-  }, [quill]);
+        // Handle changes
+        const handleChange = () => {
+          const html = quillInstance.root.innerHTML;
+          if (html !== value) onChange(html);
+        };
 
-  // Update editor if parent value changes
-  useEffect(() => {
-    if (!quill) return;
-    if (value !== quill.root.innerHTML) {
-      quill.clipboard.dangerouslyPasteHTML(value);
+        quillInstance.on('text-change', handleChange);
+
+        // Cleanup
+        return () => {
+          quillInstance.off('text-change', handleChange);
+        };
+      });
     }
-  }, [value, quill]);
+  }, [quillRef, value, onChange]);
 
-  return (
-    <div ref={quillRef} className="bg-black " style={{ height, color: 'white', border: 'none' }} />
-  );
+  return <div ref={setQuillRef} className="dark:bg-black" style={{ height, border }} />;
 };
 
 export default ReactQuil;

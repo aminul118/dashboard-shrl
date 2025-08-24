@@ -19,8 +19,8 @@ import GradientTitle from '@/components/ui/gradientTitle';
 import { toast } from 'sonner';
 import { useAddTeamMemberMutation } from '@/redux/features/team/team.api';
 import type { FieldArrayPath } from 'react-hook-form';
-import { lazy, Suspense } from 'react';
-const ReactQuil = lazy(() => import('@/components/modules/common/ReactQuil'));
+import { Suspense } from 'react';
+import ReactQuil from '@/components/modules/common/ReactQuil';
 
 // ✅ Zod Schema
 const formSchema = z.object({
