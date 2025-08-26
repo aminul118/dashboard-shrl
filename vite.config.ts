@@ -11,10 +11,20 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  optimizeDeps: {
-    include: ['quill', 'react-quilljs'],
-  },
   server: {
     port: 3000,
+  },
+  build: {
+    sourcemap: true,
+    commonjsOptions: {
+      transformMixedEsModules: true, // <-- crucial
+    },
+  },
+  define: {
+    'process.env': {}, // some deps peek at process
+    global: 'window', // some deps assume Node's global
+  },
+  optimizeDeps: {
+    include: ['quill', 'react-quilljs', 'parchment', 'quill-delta'],
   },
 });
