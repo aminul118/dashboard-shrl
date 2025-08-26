@@ -50,12 +50,12 @@ export const navMenu: INavMenu[] = [
         Component: AddTeamMember,
       },
       {
-        title: 'Manage Team Member',
+        title: 'Team Members',
         url: '/manage-team-member',
         Component: ManageTeamMember,
       },
       {
-        title: 'Team Join Request',
+        title: 'Join Requests',
         url: '/team-join-request',
         Component: TeamJoinRequest,
       },

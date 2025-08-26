@@ -128,7 +128,7 @@ export function TeamJoinSendMessage({ email }: { email: string }) {
                 <FormItem>
                   <FormLabel>Message</FormLabel>
                   <FormControl>
-                    <ReactQuil value={field.value} onChange={field.onChange} />
+                    <ReactQuil height={300} value={field.value} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

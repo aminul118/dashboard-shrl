@@ -2,7 +2,7 @@ import { useDeleteEventMutation, useGetEventQuery } from '@/redux/features/event
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { TypographyH3 } from '@/components/ui/typography';
-import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import GradientTitle from '@/components/ui/gradientTitle';
 

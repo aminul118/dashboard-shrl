@@ -1,7 +1,7 @@
 // components/modules/team/ManageTeamMember.tsx
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useRef } from 'react';
-import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import GradientTitle from '@/components/ui/gradientTitle';
 import {

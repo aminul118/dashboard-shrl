@@ -13,7 +13,7 @@ import {
 import GradientTitle from '@/components/ui/gradientTitle';
 import { ShowRequestModal } from '@/components/modules/teamJoinReguest/ShowRequestModal';
 import { TeamJoinSendMessage } from '@/components/modules/teamJoinReguest/TeamJoinSendMessage';
-import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 

@@ -1,4 +1,4 @@
-import DeleteConfirmation from '@/components/modules/common/DeleteConfirmation';
+import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import GradientTitle from '@/components/ui/gradientTitle';
 import {
