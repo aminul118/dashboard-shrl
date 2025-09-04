@@ -1,6 +1,6 @@
 // components/modules/team/ManageTeamMember.tsx
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import GradientTitle from '@/components/ui/gradientTitle';
@@ -16,8 +16,17 @@ import {
   useDeleteTeamMemberMutation,
   useGetAllTeamMembersQuery,
 } from '@/redux/features/team/team.api';
-import { Trash2, RefreshCw } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import ManageTeamMemberSkeleton from './ManageTeamMemberSkeleton';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { Link } from 'react-router';
 
 interface TeamMember {
   _id: string;
@@ -30,7 +39,14 @@ interface TeamMember {
 }
 
 const ManageTeamMember = () => {
-  const { data, isLoading, isFetching, isError, refetch } = useGetAllTeamMembersQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 10;
+
+  const { data, isLoading, isFetching, isError } = useGetAllTeamMembersQuery({
+    page: currentPage,
+    limit,
+  });
+  const meta = data?.meta;
 
   const [deleteTeamMember] = useDeleteTeamMemberMutation();
   const imgFallbackRef = useRef(new Set<string>());
@@ -50,15 +66,8 @@ const ManageTeamMember = () => {
     <div className="container mx-auto">
       <div className="mb-4 flex items-center justify-between">
         <GradientTitle title="Team Members" />
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isLoading || isFetching}
-          className="gap-2"
-        >
-          <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} />
-          {isFetching ? 'Refreshing…' : 'Refresh'}
+        <Button>
+          <Link to="/add-team-member">Add Team Member</Link>
         </Button>
       </div>
 
@@ -77,23 +86,6 @@ const ManageTeamMember = () => {
         {/* Loading state */}
         {isLoading && <ManageTeamMemberSkeleton count={6} />}
 
-        {/* Error state */}
-        {!isLoading && isError && (
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <div className="rounded-md border border-destructive/30 bg-destructive/10 p-4">
-                  <div className="mt-2">
-                    <Button onClick={() => refetch()} size="sm">
-                      Try again
-                    </Button>
-                  </div>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        )}
-
         {/* Data / Empty state */}
         {!isLoading && !isError && (
           <TableBody>
@@ -102,42 +94,44 @@ const ManageTeamMember = () => {
                 const key = team._id ?? team.slug ?? team.email ?? `${team.name}-${i}`;
 
                 return (
-                  <TableRow key={key}>
-                    <TableCell>{i + 1}</TableCell>
-                    <TableCell>
-                      {/* resilient img with fallback */}
-                      <img
-                        src={
-                          team.photo && !imgFallbackRef.current.has(team.photo)
-                            ? team.photo
-                            : '/placeholder-avatar.png'
-                        }
-                        onError={(e) => {
-                          const bad = e.currentTarget.getAttribute('src') || '';
-                          if (bad) imgFallbackRef.current.add(bad);
-                          e.currentTarget.src = '/placeholder-avatar.png';
-                        }}
-                        alt={team.name || 'Member photo'}
-                        className="h-12 w-12 rounded-full object-cover border"
-                        loading="lazy"
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">{team.name}</TableCell>
-                    <TableCell>{team.shrlDesignation || '-'}</TableCell>
-                    <TableCell>{team.phone || '-'}</TableCell>
-                    <TableCell className="flex items-center gap-2">
-                      <DeleteConfirmation onConfirm={() => handleDelete(team.slug)}>
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          aria-label={`Delete ${team.name}`}
-                          title={`Delete ${team.name}`}
-                        >
-                          <Trash2 />
-                        </Button>
-                      </DeleteConfirmation>
-                    </TableCell>
-                  </TableRow>
+                  <>
+                    <TableRow key={key}>
+                      <TableCell>{i + 1}</TableCell>
+                      <TableCell>
+                        {/* resilient img with fallback */}
+                        <img
+                          src={
+                            team.photo && !imgFallbackRef.current.has(team.photo)
+                              ? team.photo
+                              : '/placeholder-avatar.png'
+                          }
+                          onError={(e) => {
+                            const bad = e.currentTarget.getAttribute('src') || '';
+                            if (bad) imgFallbackRef.current.add(bad);
+                            e.currentTarget.src = '/placeholder-avatar.png';
+                          }}
+                          alt={team.name || 'Member photo'}
+                          className="h-12 w-12 rounded-full object-cover border"
+                          loading="lazy"
+                        />
+                      </TableCell>
+                      <TableCell className="font-medium">{team.name}</TableCell>
+                      <TableCell>{team.shrlDesignation || '-'}</TableCell>
+                      <TableCell>{team.phone || '-'}</TableCell>
+                      <TableCell className="flex items-center gap-2">
+                        <DeleteConfirmation onConfirm={() => handleDelete(team.slug)}>
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            aria-label={`Delete ${team.name}`}
+                            title={`Delete ${team.name}`}
+                          >
+                            <Trash2 />
+                          </Button>
+                        </DeleteConfirmation>
+                      </TableCell>
+                    </TableRow>
+                  </>
                 );
               })
             ) : (
@@ -150,6 +144,42 @@ const ManageTeamMember = () => {
           </TableBody>
         )}
       </Table>
+
+      {/* Pagination */}
+      {meta?.totalPage > 1 && (
+        <Pagination className="mt-4 flex justify-end">
+          <PaginationContent>
+            {/* Previous Button */}
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              />
+            </PaginationItem>
+
+            {/* Page Numbers */}
+            {Array.from({ length: meta.totalPage }, (_, index) => index + 1).map((page) => (
+              <PaginationItem key={page} onClick={() => setCurrentPage(page)}>
+                <PaginationLink isActive={currentPage === page} className="cursor-pointer">
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            {/* Next Button */}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => setCurrentPage((prev) => Math.min(meta.totalPage, prev + 1))}
+                className={
+                  currentPage === meta.totalPage
+                    ? 'pointer-events-none opacity-50'
+                    : 'cursor-pointer'
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };

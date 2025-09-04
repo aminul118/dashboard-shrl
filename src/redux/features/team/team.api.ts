@@ -23,9 +23,10 @@ const teamApi = baseApi.injectEndpoints({
 
     // GET - Get All Upcoming Events
     getAllTeamMembers: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: '/team/get-all',
         method: 'GET',
+        params,
       }),
       providesTags: ['TEAM'],
     }),

@@ -4,7 +4,6 @@ import ManageEvent from '@/pages/Event/ManageEvent';
 import ManageUpcomingEvent from '@/pages/Event/ManageUpcomingEvent';
 import AddScrollingText from '@/pages/ScrollingText/AddScrollingText';
 import ManageScrollingText from '@/pages/ScrollingText/ManageScrollingText';
-import AddTeamMember from '@/pages/Team/AddTeamMember';
 import ManageTeamMember from '@/pages/Team/ManageTeamMember';
 import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
 import type { INavMenu } from '@/types';
@@ -45,13 +44,8 @@ export const navMenu: INavMenu[] = [
     icon: User,
     items: [
       {
-        title: 'Add Team Member',
-        url: '/add-team-member',
-        Component: AddTeamMember,
-      },
-      {
         title: 'Team Members',
-        url: '/manage-team-member',
+        url: '/team-members',
         Component: ManageTeamMember,
       },
       {

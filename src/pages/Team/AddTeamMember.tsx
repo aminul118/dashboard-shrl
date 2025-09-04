@@ -21,6 +21,7 @@ import { useAddTeamMemberMutation } from '@/redux/features/team/team.api';
 import type { FieldArrayPath } from 'react-hook-form';
 import { Suspense } from 'react';
 import ReactQuil from '@/components/modules/common/ReactQuil';
+import { useNavigate } from 'react-router';
 
 // ✅ Zod Schema
 const formSchema = z.object({
@@ -37,6 +38,7 @@ const formSchema = z.object({
 
 const AddTeamMember = () => {
   const [addTeamMember] = useAddTeamMemberMutation();
+  const navigate = useNavigate();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -80,6 +82,7 @@ const AddTeamMember = () => {
         phone: '',
         photo: null,
       });
+      navigate('/team-members');
     } catch (error: any) {
       toast.error(error?.message || 'Failed to add team member', { id: toastId });
     }
