@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,8 +31,7 @@ const DeleteConfirmation = ({ children, onConfirm }: IDeleteConfirmation) => {
       if (res.success) {
         toast.success(res.message ?? 'Removed Successfully', { id: toastId });
       }
-    } catch (error: any) {
-      // console.log('ERROR-->', error);
+    } catch {
       toast.error('Failed to delete. Please try again.', { id: toastId });
     }
   };

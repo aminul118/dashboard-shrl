@@ -13,6 +13,7 @@ import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
 import AddTeamMember from '@/pages/Team/AddTeamMember';
+import AddUpcomingEvent from '@/pages/Event/AddUpcomingEvent';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/add-team-member',
         Component: AddTeamMember,
+      },
+      {
+        path: '/add-upcoming-event',
+        Component: AddUpcomingEvent,
       },
       ...generateRoutes(navMenu),
     ],

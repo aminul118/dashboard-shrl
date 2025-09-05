@@ -1,18 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useDeleteUpcomingEventMutation,
   useGetUpcomingEventsQuery,
 } from '@/redux/features/event/event.api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import ButtonSpinner from '@/components/ui/button-spinner';
-import { toast } from 'sonner';
-import { useState } from 'react';
-import { TypographyH3 } from '@/components/ui/typography';
+import dateFormat from '@/utils/dateFormat';
 import GradientTitle from '@/components/ui/gradientTitle';
+import { Link } from 'react-router';
 
 export interface IUpcomingEventData {
   _id: string;
@@ -27,85 +32,70 @@ export interface IUpcomingEventData {
 }
 
 const ManageUpcomingEvent = () => {
-  const [deletingId, setDeletingId] = useState<string | null>(null);
   const { data: upcomingEvents, isLoading } = useGetUpcomingEventsQuery(undefined);
-  const [deleteEventById] = useDeleteUpcomingEventMutation();
-
-  if (isLoading) {
-    return (
-      <div className="space-y-2">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex items-center space-x-4">
-            <Skeleton className="h-10 w-10 rounded-full" />
-            <Skeleton className="h-4 w-[250px]" />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  // const handleUpdate = (id: string) => {
-  //   // console.log('Update event:', id);
-  //   // Navigate or open modal here
-  // };
+  const [deleteEventById, { isLoading: isDeleting }] = useDeleteUpcomingEventMutation();
 
   const handleDelete = async (id: string) => {
-    setDeletingId(id);
-    try {
-      const res = await deleteEventById(id).unwrap();
-      // console.log(res);
-      toast.success(res.message);
-      // await refetch();
-    } catch (error: any) {
-      toast.error('Delete failed');
-    }
+    return await deleteEventById(id).unwrap();
   };
 
-  if (upcomingEvents?.data?.length === 0) {
-    return (
-      <GradientTitle
-        title="No Event Found"
-        description="Add Event to show and mange from this page"
-      />
-    );
-  }
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="overflow-x-auto container mx-auto">
-      <TypographyH3 title="Manage Upcoming Events" className="mb-12 text-center" />
-      <table className="min-w-full border text-sm">
-        <thead className="bg-primary">
-          <tr>
-            <th className="px-4 py-2 text-left">#</th>
-            <th className="px-4 py-2 text-left">Photo</th>
-            <th className="px-4 py-2 text-left">Title</th>
-            <th className="px-4 py-2 text-left">Time</th>
-            <th className="px-4 py-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {upcomingEvents?.data?.map((event: IUpcomingEventData, index: number) => (
-            <tr key={event._id} className="border-t">
-              <td className="px-4 py-2">{index + 1}</td>
-              <td className="px-4 py-2">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={event.photo} alt={event.title} />
-                  <AvatarFallback>{event.title?.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </td>
-              <td className="px-4 py-2">{event.title}</td>
-              <td className="px-4 py-2">{event.time}</td>
-              <td className="space-x-2">
-                {/* <Button onClick={() => handleUpdate(event._id)}>
-                  <SquarePen size={16} />
-                </Button> */}
-                <Button onClick={() => handleDelete(event._id)} disabled={deletingId === event._id}>
-                  {deletingId === event._id ? <ButtonSpinner /> : <Trash2 size={16} />}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="flex justify-between items-center">
+        <GradientTitle title="Upcoming Events" />
+        <Button>
+          <Link to="/add-upcoming-event">Add Upcoming Event</Link>
+        </Button>
+      </div>
+      <Table>
+        <TableHeader className="bg-primary">
+          <TableRow>
+            <TableHead>SI</TableHead>
+            <TableHead>Photo</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead>Time</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {upcomingEvents?.data?.length === 0 ? (
+            <>
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  No Upcoming Event Found
+                </TableCell>
+              </TableRow>
+            </>
+          ) : (
+            <>
+              {upcomingEvents?.data?.map((event: IUpcomingEventData, index: number) => (
+                <TableRow key={event._id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={event.photo} alt={event.title} />
+                      <AvatarFallback>{event.title?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </TableCell>
+                  <TableCell>{event.title}</TableCell>
+                  <TableCell>{dateFormat(event.date)}</TableCell>
+                  <TableCell>{event.time}</TableCell>
+                  <TableCell className="space-x-2">
+                    <DeleteConfirmation onConfirm={() => handleDelete(event._id)}>
+                      <Button variant="destructive" size="sm" disabled={isDeleting}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </DeleteConfirmation>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </>
+          )}
+        </TableBody>
+      </Table>
     </div>
   );
 };

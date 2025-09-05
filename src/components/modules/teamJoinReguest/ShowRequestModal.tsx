@@ -26,7 +26,7 @@ export function ShowRequestModal({ payload }: { payload: IRequestJoin }) {
   } = payload;
 
   // Fields to display
-  const fieldsToShow: Record<string, string> = {
+  const fieldsToShow = {
     Name: name,
     Email: email,
     Phone: phone,

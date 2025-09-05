@@ -3,7 +3,6 @@ import { NavMain } from './NavMain';
 import { NavUser } from './NavUser';
 import { Link } from 'react-router';
 import logo from '../../assets/images/logo-white.png';
-
 import { navMenu } from '@/routes/adminSidebarItem';
 
 // This is sample data.

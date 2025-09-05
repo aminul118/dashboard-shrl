@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import ImageDrop from '@/components/ui/image-drop';
 import { useAddUpcomingEventMutation } from '@/redux/features/event/event.api';
 import GradientTitle from '@/components/ui/gradientTitle';
+import { useNavigate } from 'react-router';
 
 // ✅ Validation schema
 const formSchema = z.object({
@@ -31,6 +32,7 @@ const formSchema = z.object({
 });
 
 const AddUpcomingEvent = () => {
+  const navigate = useNavigate();
   const [addUpcomingEvent] = useAddUpcomingEventMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,7 +54,8 @@ const AddUpcomingEvent = () => {
     try {
       const res = await addUpcomingEvent(formData).unwrap();
       toast.success(res.message || 'Event added successfully!');
-      form.reset(); // ✅ clears everything including image
+      form.reset();
+      navigate('/upcoming-event');
     } catch (error: any) {
       toast.error(error?.data?.message || 'Something went wrong');
     }

@@ -27,6 +27,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Link } from 'react-router';
+import dateFormat from '@/utils/dateFormat';
 
 interface TeamMember {
   _id: string;
@@ -36,6 +37,7 @@ interface TeamMember {
   photo?: string;
   email?: string;
   shrlDesignation?: string;
+  createdAt: string;
 }
 
 const ManageTeamMember = () => {
@@ -72,13 +74,14 @@ const ManageTeamMember = () => {
       </div>
 
       <Table>
-        <TableHeader>
-          <TableRow className="bg-primary">
+        <TableHeader className="bg-primary">
+          <TableRow>
             <TableHead>SI</TableHead>
             <TableHead className="w-[72px]">Photo</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Designation</TableHead>
             <TableHead>Phone</TableHead>
+            <TableHead>Date & Time</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -118,6 +121,7 @@ const ManageTeamMember = () => {
                       <TableCell className="font-medium">{team.name}</TableCell>
                       <TableCell>{team.shrlDesignation || '-'}</TableCell>
                       <TableCell>{team.phone || '-'}</TableCell>
+                      <TableCell>{dateFormat(team.createdAt)}</TableCell>
                       <TableCell className="flex items-center gap-2">
                         <DeleteConfirmation onConfirm={() => handleDelete(team.slug)}>
                           <Button

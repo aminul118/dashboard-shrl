@@ -2,63 +2,81 @@ import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation'
 import { Button } from '@/components/ui/button';
 import GradientTitle from '@/components/ui/gradientTitle';
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
   useDeleteScrollingTextMutation,
   useGetScrollingTextQuery,
 } from '@/redux/features/scrollingText/scrollingText.api';
 import { Trash2 } from 'lucide-react';
-
+import AddScrollingTextModal from './AddScrollingTextModal';
+import dateFormat from '@/utils/dateFormat';
 interface IText {
   _id: string;
   text: string;
+  createdAt: string;
 }
 
 const ManageScrollingText = () => {
   const { data: scrollingText, isLoading, isError } = useGetScrollingTextQuery(undefined);
 
-  const [deleteScrollingText] = useDeleteScrollingTextMutation();
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error: {'Something went wrong'}</p>;
+  const [deleteScrollingText, { isLoading: isDeleting }] = useDeleteScrollingTextMutation();
 
   const handleDelete = async (id: string) => {
     return await deleteScrollingText(id).unwrap();
   };
 
-  if (scrollingText?.data?.length === 0) {
-    return (
-      <GradientTitle
-        title="No Scrolling Text Found"
-        description="Add Scrolling text from admin dashboard to show and mange from this page."
-      />
-    );
-  }
   return (
     <div className="overflow-x-auto max-w-5xl w-full mx-auto">
-      <GradientTitle title="Manage Scrolling Text" />
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-primary text-white">
-            <th className="border px-4 py-2">SI</th>
-            <th className="border px-4 py-2">Text</th>
-            <th className="border px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scrollingText?.data?.map((text: IText, i: number) => (
-            <tr key={text._id} className="text-center border-t">
-              <td className="border px-4 py-2">{i + 1}</td>
-              <td className="border px-4 py-2 text-left">{text.text}</td>
-              <td className="border px-4 py-2 ">
-                <DeleteConfirmation onConfirm={() => handleDelete(text._id)}>
-                  <Button>
-                    <Trash2 />
-                  </Button>
-                </DeleteConfirmation>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="flex justify-between items-center mb-4">
+        <GradientTitle title="Manage Scrolling Text" />
+        <AddScrollingTextModal />
+      </div>
+
+      {!isLoading && !isError && (
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-primary">
+              <TableHead className="w-16 text-center">SI</TableHead>
+              <TableHead className="text-left">Text</TableHead>
+              <TableHead className="text-left">Date & Time</TableHead>
+              <TableHead className="w-32 text-center">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {scrollingText?.data?.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center py-4">
+                  No scrolling text found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              scrollingText?.data?.map((text: IText, i: number) => (
+                <TableRow key={text._id} className="text-center hover:bg-muted/30 transition">
+                  <TableCell className="text-center">{i + 1}</TableCell>
+                  <TableCell className="text-left">
+                    {text.text?.length > 80 ? text.text.slice(0, 80) + '...' : text.text}
+                  </TableCell>
+                  <TableCell className="text-left">{dateFormat(text.createdAt)}</TableCell>
+                  <TableCell className="text-center">
+                    <DeleteConfirmation onConfirm={() => handleDelete(text._id)}>
+                      <Button variant="destructive" size="sm" disabled={isDeleting}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </DeleteConfirmation>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

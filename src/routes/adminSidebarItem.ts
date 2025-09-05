@@ -1,8 +1,6 @@
 import AddEvent from '@/pages/Event/AddEvent';
-import AddUpcomingEvent from '@/pages/Event/AddUpcomingEvent';
 import ManageEvent from '@/pages/Event/ManageEvent';
 import ManageUpcomingEvent from '@/pages/Event/ManageUpcomingEvent';
-import AddScrollingText from '@/pages/ScrollingText/AddScrollingText';
 import ManageScrollingText from '@/pages/ScrollingText/ManageScrollingText';
 import ManageTeamMember from '@/pages/Team/ManageTeamMember';
 import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
@@ -17,13 +15,8 @@ export const navMenu: INavMenu[] = [
     icon: Calendar,
     items: [
       {
-        title: 'Add Upcoming Event',
-        url: '/add-upcoming-event',
-        Component: AddUpcomingEvent,
-      },
-      {
-        title: 'Manage Upcoming Event',
-        url: '/manage-upcoming-event',
+        title: 'Upcoming Event',
+        url: '/upcoming-event',
         Component: ManageUpcomingEvent,
       },
       {
@@ -60,11 +53,6 @@ export const navMenu: INavMenu[] = [
     url: '#',
     icon: GalleryHorizontal,
     items: [
-      {
-        title: 'Add Scrolling Text',
-        url: '/add-scrolling-text',
-        Component: AddScrollingText,
-      },
       {
         title: 'Manage Scrolling Text',
         url: '/manage-scrolling-text',

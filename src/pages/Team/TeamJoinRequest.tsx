@@ -16,6 +16,7 @@ import { TeamJoinSendMessage } from '@/components/modules/teamJoinReguest/TeamJo
 import DeleteConfirmation from '@/components/modules/actions/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import dateFormat from '@/utils/dateFormat';
 
 export interface IRequestJoin {
   name: string;
@@ -67,7 +68,7 @@ const TeamJoinRequest = () => {
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Occupation</TableHead>
-            <TableHead>Created At</TableHead>
+            <TableHead>Request Date & Time</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -79,7 +80,7 @@ const TeamJoinRequest = () => {
               <TableCell>{req.email}</TableCell>
               <TableCell>{req.phone}</TableCell>
               <TableCell>{req.occupation}</TableCell>
-              <TableCell>{new Date(req.createdAt).toLocaleString()}</TableCell>
+              <TableCell>{dateFormat(req.createdAt)}</TableCell>
               {/* Table Actions */}
               <TableCell className="flex items-center gap-2">
                 <ShowRequestModal payload={req} />
