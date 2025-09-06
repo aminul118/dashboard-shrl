@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/form';
 import { useSendParticipantEmailMutation } from '@/redux/features/team/team.api';
 import { toast } from 'sonner';
-import ReactQuil from '../common/ReactQuil';
+import ReactQuil from '../../components/modules/common/ReactQuil';
 
 const formSchema = z.object({
   subject: z.string().trim().min(10, { message: 'Subject must be at least 10 characters.' }),
