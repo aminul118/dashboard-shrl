@@ -18,6 +18,7 @@ import MultipleImageDrop from '@/components/ui/multiple-image-drop';
 import ButtonSpinner from '@/components/ui/button-spinner';
 import GradientTitle from '@/components/ui/gradientTitle';
 import ReactQuil from '@/components/modules/common/ReactQuil';
+import { useNavigate } from 'react-router';
 
 // -----------------
 // Zod schema
@@ -41,6 +42,7 @@ type FormValues = z.infer<typeof formSchema>;
 // -----------------
 const AddEvent = () => {
   const [addEvent, { isLoading }] = useAddEventMutation();
+  const navigate = useNavigate();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -70,6 +72,7 @@ const AddEvent = () => {
       const res = await addEvent(formData).unwrap();
       toast.success(res.message, { id: toastId });
       form.reset();
+      navigate('/manage-event');
     } catch (error: any) {
       toast.error(error.message || 'ERROR', { id: toastId });
     }

@@ -1,4 +1,3 @@
-import AddEvent from '@/pages/Event/AddEvent';
 import ManageEvent from '@/pages/Event/ManageEvent';
 import ManageUpcomingEvent from '@/pages/Event/ManageUpcomingEvent';
 import ManageScrollingText from '@/pages/ScrollingText/ManageScrollingText';
@@ -19,11 +18,7 @@ export const navMenu: INavMenu[] = [
         url: '/upcoming-event',
         Component: ManageUpcomingEvent,
       },
-      {
-        title: 'Add Event',
-        url: '/add-event',
-        Component: AddEvent,
-      },
+
       {
         title: 'Manage Event',
         url: '/manage-event',

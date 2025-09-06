@@ -14,6 +14,8 @@ import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
 import AddTeamMember from '@/pages/Team/AddTeamMember';
 import AddUpcomingEvent from '@/pages/Event/AddUpcomingEvent';
+import AddEvent from '@/pages/Event/AddEvent';
+import Users from '@/pages/Users';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: '/add-team-member',
         Component: AddTeamMember,
+      },
+      {
+        path: '/add-event',
+        Component: AddEvent,
+      },
+      {
+        path: '/users',
+        Component: Users,
       },
       {
         path: '/add-upcoming-event',
