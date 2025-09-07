@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import HomePageSkeleton from '@/components/skeleton/HomePageSkeleton';
 import { Card, CardContent } from '@/components/ui/card';
+import GradientTitle from '@/components/ui/gradientTitle';
+import { useUserInfoQuery } from '@/redux/features/auth/auth.api';
 import { useGetAdminStatsQuery } from '@/redux/features/stats/stats.api';
 
 const Home = () => {
   const { data, isLoading } = useGetAdminStatsQuery(undefined);
+  const { data: userData, isLoading: userLoading } = useUserInfoQuery(undefined);
 
-  if (isLoading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+  if (isLoading || userLoading) {
+    return <HomePageSkeleton />;
   }
 
   return (
     <section className="container mx-auto">
+      <GradientTitle title={`Welcome ${userData?.data?.name}`} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {data?.data?.map((stats: any, idx: number) => {
           return (

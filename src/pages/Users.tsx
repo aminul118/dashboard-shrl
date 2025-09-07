@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { BadgeCheck, Trash } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import dateFormat from '@/utils/dateFormat';
+import GradientTitle from '@/components/ui/gradientTitle';
 
 export interface IUser {
   _id: string;
@@ -30,7 +31,7 @@ const Users = () => {
   if (!isLoading) {
     return (
       <div className="container mx-auto overflow-x-auto">
-        <h2 className="text-2xl font-semibold mb-6">All Users</h2>
+        <GradientTitle title="Registered Users" />
 
         <Table>
           <TableHeader className="bg-primary text-white">

@@ -6,9 +6,7 @@ import generateRoutes from '@/utils/generateRoutes';
 import { navMenu } from './adminSidebarItem';
 import Home from '@/pages/Home';
 import Unauthorized from '@/pages/Unauthorized';
-import { withAuth } from '@/utils/withAuth';
 import { role } from '@/constants/role';
-import type { TRole } from '@/types';
 import Layout from '@/components/layouts/Layout';
 import Profile from '@/pages/auth/Profile';
 import NotFound from '@/pages/NotFound';
@@ -18,11 +16,16 @@ import AddEvent from '@/pages/Event/AddEvent';
 import Users from '@/pages/Users';
 import ScrollingText from '@/pages/ScrollingText/ScrollingText';
 import AiTrainings from '@/pages/ai/AiTrainings';
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
   {
     path: '',
-    Component: withAuth(Layout, (role.admin as TRole) || (role.superAdmin as TRole)),
+    element: (
+      <PrivateRoute allowedRoles={[role.admin, role.superAdmin]}>
+        <Layout />
+      </PrivateRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {
