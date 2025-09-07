@@ -41,8 +41,6 @@ const AiTrainings = () => {
   const [deleteAiData, { isLoading: isDeleting }] = useDeleteAiTrainingDataMutation();
   const meta = data?.meta;
 
-  if (isLoading) return <p>Loading...</p>;
-
   const handleDelete = async (id: string) => {
     return await deleteAiData(id).unwrap();
   };
@@ -64,6 +62,7 @@ const AiTrainings = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {isLoading && <p>Loading..</p>}
           {data?.data?.length === 0 ? (
             <>
               <TableRow>
