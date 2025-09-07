@@ -22,7 +22,7 @@ interface IText {
   createdAt: string;
 }
 
-const ManageScrollingText = () => {
+const ScrollingText = () => {
   const { data: scrollingText, isLoading, isError } = useGetScrollingTextQuery(undefined);
 
   const [deleteScrollingText, { isLoading: isDeleting }] = useDeleteScrollingTextMutation();
@@ -81,4 +81,4 @@ const ManageScrollingText = () => {
   );
 };
 
-export default ManageScrollingText;
+export default ScrollingText;

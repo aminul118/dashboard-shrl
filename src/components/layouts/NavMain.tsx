@@ -29,7 +29,7 @@ type Item = {
 
 export function NavMain({ items }: Item) {
   return (
-    <SidebarGroup>
+    <SidebarGroup className="my-0 py-0">
       <SidebarGroupLabel>Menus</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (

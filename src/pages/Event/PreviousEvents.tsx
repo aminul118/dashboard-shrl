@@ -31,7 +31,7 @@ export interface IManageEvent {
   photos?: string[]; // added to match your API
 }
 
-const ManageEvent = () => {
+const PreviousEvents = () => {
   const { data: events, isLoading } = useGetEventQuery(null);
   const [deleteEvent, { isLoading: deleteLoading }] = useDeleteEventMutation();
 
@@ -104,4 +104,4 @@ const ManageEvent = () => {
   }
 };
 
-export default ManageEvent;
+export default PreviousEvents;

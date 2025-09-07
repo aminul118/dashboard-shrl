@@ -1,11 +1,10 @@
-import ManageEvent from '@/pages/Event/ManageEvent';
-import ManageUpcomingEvent from '@/pages/Event/ManageUpcomingEvent';
-import ManageScrollingText from '@/pages/ScrollingText/ManageScrollingText';
 import ManageTeamMember from '@/pages/Team/ManageTeamMember';
 import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
 import type { INavMenu } from '@/types';
 
-import { Calendar, GalleryHorizontal, User } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
+import PreviousEvents from '@/pages/Event/PreviousEvents';
+import UpcomingEvents from '@/pages/Event/UpcomingEvents';
 
 export const navMenu: INavMenu[] = [
   {
@@ -14,15 +13,15 @@ export const navMenu: INavMenu[] = [
     icon: Calendar,
     items: [
       {
-        title: 'Upcoming Event',
-        url: '/upcoming-event',
-        Component: ManageUpcomingEvent,
+        title: 'Upcoming Events',
+        url: '/upcoming-events',
+        Component: UpcomingEvents,
       },
 
       {
-        title: 'Manage Event',
-        url: '/manage-event',
-        Component: ManageEvent,
+        title: 'Previous Events',
+        url: '/previous-events',
+        Component: PreviousEvents,
       },
     ],
   },
@@ -40,18 +39,6 @@ export const navMenu: INavMenu[] = [
         title: 'Join Requests',
         url: '/team-join-request',
         Component: TeamJoinRequest,
-      },
-    ],
-  },
-  {
-    title: 'Scrolling Text',
-    url: '#',
-    icon: GalleryHorizontal,
-    items: [
-      {
-        title: 'Manage Scrolling Text',
-        url: '/manage-scrolling-text',
-        Component: ManageScrollingText,
       },
     ],
   },

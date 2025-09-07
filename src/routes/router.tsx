@@ -16,6 +16,7 @@ import AddTeamMember from '@/pages/Team/AddTeamMember';
 import AddUpcomingEvent from '@/pages/Event/AddUpcomingEvent';
 import AddEvent from '@/pages/Event/AddEvent';
 import Users from '@/pages/Users';
+import ScrollingText from '@/pages/ScrollingText/ScrollingText';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/add-upcoming-event',
         Component: AddUpcomingEvent,
+      },
+      {
+        path: '/scrolling-texts',
+        Component: ScrollingText,
       },
       ...generateRoutes(navMenu),
     ],

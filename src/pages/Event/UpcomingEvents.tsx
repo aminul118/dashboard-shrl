@@ -31,7 +31,7 @@ export interface IUpcomingEventData {
   updatedAt: string;
 }
 
-const ManageUpcomingEvent = () => {
+const UpcomingEvents = () => {
   const { data: upcomingEvents, isLoading } = useGetUpcomingEventsQuery(undefined);
   const [deleteEventById, { isLoading: isDeleting }] = useDeleteUpcomingEventMutation();
 
@@ -100,4 +100,4 @@ const ManageUpcomingEvent = () => {
   }
 };
 
-export default ManageUpcomingEvent;
+export default UpcomingEvents;

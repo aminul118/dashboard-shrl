@@ -4,21 +4,25 @@ import { NavUser } from './NavUser';
 import { Link } from 'react-router';
 import logo from '../../assets/images/logo-white.png';
 import { navMenu } from '@/routes/adminSidebarItem';
-import { NavProjects } from './NavProject';
-import { User2 } from 'lucide-react';
+import SingleMenu from './NavProject';
+import { GalleryHorizontal, User2 } from 'lucide-react';
 
 // This is sample data.
 const data = {
   projects: [
     {
-      name: 'Users',
+      name: 'Registered Users',
       url: '/users',
       icon: User2,
+    },
+    {
+      name: 'Scrolling Text',
+      url: '/scrolling-texts',
+      icon: GalleryHorizontal,
     },
   ],
 };
 
-// This is sample data.
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -29,7 +33,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMenu} />
-        <NavProjects projects={data.projects} />
+        <SingleMenu menus={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
