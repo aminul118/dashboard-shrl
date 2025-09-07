@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import logo from '../../assets/images/logo-white.png';
 import { navMenu } from '@/routes/adminSidebarItem';
 import SingleMenu from './NavProject';
-import { GalleryHorizontal, User2 } from 'lucide-react';
+import { Bot, GalleryHorizontal, User2 } from 'lucide-react';
 
 // This is sample data.
 const data = {
@@ -19,6 +19,11 @@ const data = {
       name: 'Scrolling Text',
       url: '/scrolling-texts',
       icon: GalleryHorizontal,
+    },
+    {
+      name: 'AI Trainings',
+      url: '/ai-Training',
+      icon: Bot,
     },
   ],
 };

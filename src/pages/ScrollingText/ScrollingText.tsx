@@ -32,7 +32,7 @@ const ScrollingText = () => {
   };
 
   return (
-    <div className="overflow-x-auto max-w-5xl w-full mx-auto">
+    <div className="overflow-x-auto container mx-auto">
       <div className="flex justify-between items-center mb-4">
         <GradientTitle title="Manage Scrolling Text" />
         <AddScrollingTextModal />

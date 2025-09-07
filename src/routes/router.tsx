@@ -17,6 +17,7 @@ import AddUpcomingEvent from '@/pages/Event/AddUpcomingEvent';
 import AddEvent from '@/pages/Event/AddEvent';
 import Users from '@/pages/Users';
 import ScrollingText from '@/pages/ScrollingText/ScrollingText';
+import AiTrainings from '@/pages/ai/AiTrainings';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: '/scrolling-texts',
         Component: ScrollingText,
+      },
+      {
+        path: '/ai-training',
+        Component: AiTrainings,
       },
       ...generateRoutes(navMenu),
     ],
