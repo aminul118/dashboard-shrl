@@ -17,7 +17,6 @@ import {
   useGetAllTeamMembersQuery,
 } from '@/redux/features/team/team.api';
 import { Trash2 } from 'lucide-react';
-import ManageTeamMemberSkeleton from './ManageTeamMemberSkeleton';
 import {
   Pagination,
   PaginationContent,
@@ -28,6 +27,7 @@ import {
 } from '@/components/ui/pagination';
 import { Link } from 'react-router';
 import dateFormat from '@/utils/dateFormat';
+import TableSkeleton from '@/components/skeleton/TableSkeleton';
 
 interface TeamMember {
   _id: string;
@@ -40,11 +40,11 @@ interface TeamMember {
   createdAt: string;
 }
 
-const ManageTeamMember = () => {
+const TeamMembers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, isFetching, isError } = useGetAllTeamMembersQuery({
+  const { data, isLoading, isFetching } = useGetAllTeamMembersQuery({
     page: currentPage,
     limit,
   });
@@ -63,6 +63,10 @@ const ManageTeamMember = () => {
   const handleDelete = async (slug: string) => {
     return await deleteTeamMember(slug).unwrap();
   };
+
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
 
   return (
     <div className="container mx-auto">
@@ -86,11 +90,8 @@ const ManageTeamMember = () => {
           </TableRow>
         </TableHeader>
 
-        {/* Loading state */}
-        {isLoading && <ManageTeamMemberSkeleton count={6} />}
-
         {/* Data / Empty state */}
-        {!isLoading && !isError && (
+        {
           <TableBody>
             {rows?.length ? (
               rows.map((team, i) => {
@@ -146,7 +147,7 @@ const ManageTeamMember = () => {
               </TableRow>
             )}
           </TableBody>
-        )}
+        }
       </Table>
 
       {/* Pagination */}
@@ -188,4 +189,4 @@ const ManageTeamMember = () => {
   );
 };
 
-export default ManageTeamMember;
+export default TeamMembers;

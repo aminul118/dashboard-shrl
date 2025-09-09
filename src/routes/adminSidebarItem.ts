@@ -1,10 +1,9 @@
-import ManageTeamMember from '@/pages/Team/ManageTeamMember';
 import TeamJoinRequest from '@/pages/Team/TeamJoinRequest';
 import type { INavMenu } from '@/types';
-
 import { Calendar, User } from 'lucide-react';
 import PreviousEvents from '@/pages/Event/PreviousEvents';
 import UpcomingEvents from '@/pages/Event/UpcomingEvents';
+import TeamMembers from '@/pages/Team/TeamMembers';
 
 export const navMenu: INavMenu[] = [
   {
@@ -33,7 +32,7 @@ export const navMenu: INavMenu[] = [
       {
         title: 'Team Members',
         url: '/team-members',
-        Component: ManageTeamMember,
+        Component: TeamMembers,
       },
       {
         title: 'Join Requests',

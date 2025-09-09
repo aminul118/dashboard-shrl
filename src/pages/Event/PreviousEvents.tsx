@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/table';
 import dateFormat from '@/utils/dateFormat';
 import { Link } from 'react-router';
+import TableSkeleton from '@/components/skeleton/TableSkeleton';
 
 export interface IManageEvent {
   _id: string;
@@ -39,69 +40,71 @@ const PreviousEvents = () => {
     return await deleteEvent(eventSlug).unwrap();
   };
 
-  if (!isLoading) {
-    return (
-      <div className="overflow-x-auto container mx-auto">
-        <div className="flex justify-between items-center">
-          <GradientTitle title="All Events" />
-          <Button>
-            <Link to="/add-event">Add Events</Link>
-          </Button>
-        </div>
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
 
-        <Table>
-          <TableHeader className="bg-primary">
-            <TableRow>
-              <TableHead>SI</TableHead>
-              <TableHead>Photo</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Date & Time</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {events?.data?.length === 0 ? (
-              <>
-                <TableRow className="hover:bg-primary/10">
-                  <TableCell colSpan={5} className="text-center py-4">
-                    No Events Found. Add Events to see here
+  return (
+    <div className="overflow-x-auto container mx-auto">
+      <div className="flex justify-between items-center">
+        <GradientTitle title="All Events" />
+        <Button>
+          <Link to="/add-event">Add Events</Link>
+        </Button>
+      </div>
+
+      <Table>
+        <TableHeader className="bg-primary">
+          <TableRow>
+            <TableHead>SI</TableHead>
+            <TableHead>Photo</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead>Date & Time</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {events?.data?.length === 0 ? (
+            <>
+              <TableRow className="hover:bg-primary/10">
+                <TableCell colSpan={5} className="text-center py-4">
+                  No Events Found. Add Events to see here
+                </TableCell>
+              </TableRow>
+            </>
+          ) : (
+            <>
+              {events?.data?.map((event: IManageEvent, index: number) => (
+                <TableRow key={event._id} className="hover:bg-primary/10">
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>
+                    {event.photos && event.photos.length > 0 ? (
+                      <img
+                        src={event.photos[0]}
+                        alt={event.title}
+                        className="h-12 w-12 object-cover rounded-md"
+                      />
+                    ) : (
+                      <span className="text-gray-400">No Photo</span>
+                    )}
+                  </TableCell>
+                  <TableCell>{event.title}</TableCell>
+                  <TableCell>{dateFormat(event.createdAt)}</TableCell>
+                  <TableCell className="text-center">
+                    <DeleteConfirmation onConfirm={() => handleDelete(event.slug)}>
+                      <Button disabled={deleteLoading} size="icon" variant="destructive">
+                        {deleteLoading ? <ButtonSpinner /> : <Trash2 />}
+                      </Button>
+                    </DeleteConfirmation>
                   </TableCell>
                 </TableRow>
-              </>
-            ) : (
-              <>
-                {events?.data?.map((event: IManageEvent, index: number) => (
-                  <TableRow key={event._id} className="hover:bg-primary/10">
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>
-                      {event.photos && event.photos.length > 0 ? (
-                        <img
-                          src={event.photos[0]}
-                          alt={event.title}
-                          className="h-12 w-12 object-cover rounded-md"
-                        />
-                      ) : (
-                        <span className="text-gray-400">No Photo</span>
-                      )}
-                    </TableCell>
-                    <TableCell>{event.title}</TableCell>
-                    <TableCell>{dateFormat(event.createdAt)}</TableCell>
-                    <TableCell className="text-center">
-                      <DeleteConfirmation onConfirm={() => handleDelete(event.slug)}>
-                        <Button disabled={deleteLoading} size="icon" variant="destructive">
-                          {deleteLoading ? <ButtonSpinner /> : <Trash2 />}
-                        </Button>
-                      </DeleteConfirmation>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-    );
-  }
+              ))}
+            </>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
 };
 
 export default PreviousEvents;

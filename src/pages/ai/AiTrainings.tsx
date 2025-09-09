@@ -25,6 +25,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import dateFormat from '@/utils/dateFormat';
+import TableSkeleton from '@/components/skeleton/TableSkeleton';
 
 type AiTraining = {
   _id: string;
@@ -44,6 +45,9 @@ const AiTrainings = () => {
   const handleDelete = async (id: string) => {
     return await deleteAiData(id).unwrap();
   };
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
 
   return (
     <section className="overflow-x-auto container mx-auto">
@@ -62,7 +66,6 @@ const AiTrainings = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading && <p>Loading..</p>}
           {data?.data?.length === 0 ? (
             <>
               <TableRow>

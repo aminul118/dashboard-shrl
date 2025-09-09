@@ -16,6 +16,7 @@ import {
 import { Trash2 } from 'lucide-react';
 import AddScrollingTextModal from './AddScrollingTextModal';
 import dateFormat from '@/utils/dateFormat';
+import TableSkeleton from '@/components/skeleton/TableSkeleton';
 interface IText {
   _id: string;
   text: string;
@@ -23,13 +24,17 @@ interface IText {
 }
 
 const ScrollingText = () => {
-  const { data: scrollingText, isLoading, isError } = useGetScrollingTextQuery(undefined);
+  const { data: scrollingText, isLoading } = useGetScrollingTextQuery(undefined);
 
   const [deleteScrollingText, { isLoading: isDeleting }] = useDeleteScrollingTextMutation();
 
   const handleDelete = async (id: string) => {
     return await deleteScrollingText(id).unwrap();
   };
+
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
 
   return (
     <div className="overflow-x-auto container mx-auto">
@@ -38,7 +43,7 @@ const ScrollingText = () => {
         <AddScrollingTextModal />
       </div>
 
-      {!isLoading && !isError && (
+      {
         <Table>
           <TableHeader>
             <TableRow className="bg-primary">
@@ -76,7 +81,7 @@ const ScrollingText = () => {
             )}
           </TableBody>
         </Table>
-      )}
+      }
     </div>
   );
 };
